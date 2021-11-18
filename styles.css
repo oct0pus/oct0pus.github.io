@@ -1,9 +1,8 @@
+
 @font-face {
-    font-family: "Akzidenz Grotesk Pro Light";
-    src: url("C:/Users/varshagartaula/Users/website/oct0pus.github.io/Akzidenz Grotesk Pro Light Regular.otf");
-}
-
-
+    font-family: 'Akzidenz Grotesk Pro Light Regular';
+    src: url(/Users/varshagartaula/Desktop/untitled-folder-2/Akzidenz-Grotesk-Pro-Light-Regular.woff);
+  }
 
 
 body { 
@@ -14,9 +13,17 @@ body {
     font-weight: 300;
 }
 
+hr {
+    padding-top: 0.5vh;
+   
+    background-color:rgb(255,255,255); 
+}
+
 header {
     display: flex; /* flexbox */
     justify-content: right;
+    font-family: 'Akzidenz Grotesk Pro Light Regular', sans-serif;
+    margin-top: -3vh;
 }
 
 header ul { /* only the ul in the header */ 
@@ -30,7 +37,7 @@ li {
 }
 
 h1 {
-    font-family: 'Akzidenz Grotesk Pro Light', monospace;
+    font-family: 'Akzidenz Grotesk Pro Light Regular', serif;
     font-size : 160px;
     font-weight: 700; 
 }
@@ -72,7 +79,7 @@ a {
 
 .wave {
     fill: #d3e1f5;  
-    fill-opacity: 0.7; 
+    fill-opacity: 0.4; 
     width: 100vw;
     height: 39vh;
     position: fixed; 
@@ -82,8 +89,4 @@ a {
      
 
 }
-
-
-
-
 
