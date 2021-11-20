@@ -1,15 +1,24 @@
+/*
+* Prefixed by https://autoprefixer.github.io
+* PostCSS: v8.3.6,
+* Autoprefixer: v10.3.1
+* Browsers: last 4 version
+*/
 
 @font-face {
     font-family: 'Akzidenz Grotesk Pro Light Regular';
-    src: url(/Users/varshagartaula/Desktop/untitled-folder-2/Akzidenz-Grotesk-Pro-Light-Regular.woff);
+    src: url('/Users/varshagartaula/Desktop/untitled-folder-2/Akzidenz-Grotesk-Pro-Light-Regular.woff') format('woff'); 
+    src: url('/Users/varshagartaula/Desktop/untitled-folder-2/Akzidenz-Grotesk-Pro-Light-Regular.eot') format('eot');
+    src: url('/Users/varshagartaula/Desktop/untitled-folder-2/Akzidenz-Grotesk-Pro-Light-Regular.ttf') format('truetype'); 
+    src: url('/Users/varshagartaula/Desktop/untitled-folder-2/Akzidenz-Grotesk-Pro-Light-Regular.woff2') format('woff2'); 
   }
-
+  
 
 body { 
     background-color: rgb(116, 147, 179) ;
     color: rgb(255,255,255);
 
-    font-family: 'Akzidenz Grotesk Pro Light', monospace;
+    font-family: 'Akzidenz Grotesk Pro Light Regular', monospace;
     font-weight: 300;
 }
 
@@ -20,13 +29,19 @@ hr {
 }
 
 header {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex; /* flexbox */
-    justify-content: right;
-    font-family: 'Akzidenz Grotesk Pro Light Regular', sans-serif;
+    -webkit-box-pack: right;
+        -ms-flex-pack: right;
+            justify-content: right;
+    font-family: sans-serif;
     margin-top: -3vh;
 }
 
 header ul { /* only the ul in the header */ 
+    display: -webkit-box; 
+    display: -ms-flexbox; 
     display: flex; /* makes items appear next to each other rather than on top of each other */ 
     padding: 10px 10px 50px 10px; 
 }
@@ -38,8 +53,10 @@ li {
 
 h1 {
     font-family: 'Akzidenz Grotesk Pro Light Regular', serif;
-    font-size : 160px;
+    font-size : 60px;
     font-weight: 700; 
+    padding-right: 10%;
+    padding-left: 10%;
 }
 
 .hero-section{ /* dot for class*/
@@ -51,18 +68,18 @@ h1 {
     font-weight: 100;
 }
 
-footer {
+.work {
     position: fixed; 
     bottom: 0; 
     left: 0;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex; 
-    justify-content: center;
+    -webkit-box-pack: center; 
+        -ms-flex-pack: center; 
+            justify-content: center;
     width: 100vw; /*always be stuck to the browser*/
-}
-
-footer ul {
-    display: flex; 
-    padding: 30px;
+    background-color: sandybrown;
 }
 
 a {
@@ -89,7 +106,3 @@ a {
      
 
 }
-
-
-
-
