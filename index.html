@@ -1,116 +1,174 @@
 <!DOCTYPE html>
+<!-- Tells the browser this is a modern HTML5 page. -->
 <html lang="en">
-
+<!-- Starts the page; lang="en" says it's in English (helps screen readers and search engines). -->
 <head>
+  <!-- The <head> holds information about the page that visitors don't see. -->
 
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!--- helps with scaling when doing responsive design, scale when viewing on smaller device -->
-  <title>Portfolio page</title>
-  <link rel="stylesheet" href="styles.css">
+  <!-- Uses the UTF-8 character set so symbols like – and “ ” display correctly. -->
 
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Makes the page fit phone screens instead of showing a zoomed-out desktop page. -->
+
+  <title>Varsha Gartaula</title>
+  <!-- The text on the browser tab. -->
+
+  <link rel="stylesheet" href="css/style.css">
+  <!-- Loads all the styling (colours, fonts, positions, the flip effect) from css/style.css. -->
 </head>
+<!-- End of the head. -->
 
 <body>
-  <hr>
+  <!-- Everything visible starts here. -->
 
+  <h1 class="site-title"><a class="home-link" href="index.html">Varsha Gartaula</a></h1>
+  <!-- Your name, top left. When a project is open, clicking it closes the project and brings the pictures back. -->
 
-  <svg version="1.1" class="wave" xlmns="http://www.w3.org/200/svg">
-    <path d="
-                M0 67
-                C 273,183
-                  822, -40
-                  1920,106
-                V 600
-                H 0
-                V 67
-                Z
-                ">
-      <animate repeatCount="indefinite" attributeName="d" dur="60s" attributeType="xmln" values="
-        M0 200
-        C 473, 283
-        822, -40
-        1920, 116
-        V 600
-        H 0
-        V 300
-        Z;
-        M0 77
-        C 473, -40
-        1222, 283
-        1920, 136
-        V 600
-        H 0
-        V 300
-        Z;
-        M0 77
-        C 973, 260
-        1722, -53
-        1920, 120
-        V 600
-        H 0
-        V 300
-        Z;
-        M0 77
-        C 473, 283
-        822, -40
-        1920, 116
-        V 600
-        H 0
-        V 300
-        Z">
-</animate>
+  <!-- THE COLLAGE: the tagline plus four flip cards, all visible straight away.
+       Hover over a card (or tap it on a phone) and it pops up a little and flips to show the back.
+       Move the mouse away (or tap again) and it flips back.
+       To change the text on the back of a card, edit the <div class="face back"> inside it. -->
+  <div class="collage">
+    <!-- A wrapper around all the pictures, so they can be rearranged together on small screens. -->
 
-    </path>
-  </svg>
+    <img class="tagline" src="images/tagline.png" alt="Creative, ambitious, data-driven (hand-lettered)">
+    <!-- The hand-lettered tagline. It doesn't flip; it's just a picture. -->
 
+    <!-- ----- Card 1: portrait → contact details ----- -->
+    <div class="card portrait" tabindex="0">
+      <!-- One flip card. tabindex="0" lets keyboard users reach it with the Tab key (it flips when focused too). -->
+      <div class="card-inner">
+        <!-- The part that actually rotates. The front and back sit inside it, back to back. -->
+        <img class="face front" src="images/portrait.png" alt="Varsha smiling on a Paris street">
+        <!-- The front: your photo. -->
+        <div class="face back">
+          <!-- The back: your contact details. -->
+          <p class="back-title">Say hello</p>
+          <!-- A small heading. -->
+          <a href="mailto:varshagartaula@gmail.com">Email</a>
+          <!-- The word "Email" links to your address. mailto: opens the visitor's email app with your address filled in. -->
+          <a href="https://www.linkedin.com/in/varshagartaula" target="_blank" rel="noopener">LinkedIn</a>
+          <!-- The word "LinkedIn" links to your profile. target="_blank" opens it in a new tab; rel="noopener" is a safety setting for that. -->
+        </div>
+        <!-- End of the back. -->
+      </div>
+      <!-- End of the rotating part. -->
+    </div>
+    <!-- End of card 1. -->
 
+    <!-- ----- Card 2: book → what you're currently reading ----- -->
+    <div class="card book" tabindex="0">
+      <!-- Second flip card. -->
+      <div class="card-inner">
+        <!-- The rotating part. -->
+        <img class="face front" src="images/book.png" alt="Cover of Ways of Seeing by John Berger">
+        <!-- The front: the book cover. -->
+        <div class="face back">
+          <!-- The back: the books you're currently reading. -->
+          <p class="back-title">Currently reading</p>
+          <!-- A small heading. -->
+          <ul>
+            <!-- A list. Add an <li> line for each book you're reading. -->
+            <li>Ways of Seeing, John Berger</li>
+            <!-- The book on the front of the card. -->
+          </ul>
+          <!-- End of the list. -->
+        </div>
+        <!-- End of the back. -->
+      </div>
+      <!-- End of the rotating part. -->
+    </div>
+    <!-- End of card 2. -->
 
-  <header>
-    <ul>
-      <a href="index.html"><li>HOME</li></a> 
-      <li>WORK</li>
-      <li>CONTACT</li>
-      <li>CV/RESUME</li>
+    <!-- ----- Card 3: climbing → climbing grade ----- -->
+    <div class="card climbing" tabindex="0">
+      <!-- Third flip card. -->
+      <div class="card-inner">
+        <!-- The rotating part. -->
+        <img class="face front" src="images/climbing.png" alt="Someone climbing an indoor bouldering wall">
+        <!-- The front: the climbing photo. -->
+        <div class="face back">
+          <!-- The back: your climbing level. -->
+          <p class="back-title">Climbing</p>
+          <!-- A small heading. -->
+          <p class="back-big">6a–6b</p>
+          <!-- Your grade, shown larger. -->
+        </div>
+        <!-- End of the back. -->
+      </div>
+      <!-- End of the rotating part. -->
+    </div>
+    <!-- End of card 3. -->
+
+    <!-- ----- Card 4: coffee → living in Paris and specialty coffee (in French) ----- -->
+    <div class="card coffee" tabindex="0">
+      <!-- Fourth flip card. -->
+      <div class="card-inner">
+        <!-- The rotating part. -->
+        <img class="face front" src="images/coffee.png" alt="A latte with swan latte art">
+        <!-- The front: the latte. -->
+        <div class="face back" lang="fr">
+          <!-- The back, in French. lang="fr" tells screen readers to read it with a French accent. -->
+          <p class="back-big">J’habite à Paris depuis 2 ans</p>
+          <!-- "I've lived in Paris for the past 2 years", shown larger. -->
+          <p class="back-note">7 ans d’expérience dans le café de spécialité</p>
+          <!-- "7 years of experience in specialty coffee", in slightly lighter text. -->
+        </div>
+        <!-- End of the back. -->
+      </div>
+      <!-- End of the rotating part. -->
+    </div>
+    <!-- End of card 4. -->
+  </div>
+  <!-- End of the collage. -->
+
+  <nav class="menu">
+    <!-- The menu, bottom left. -->
+
+    <ol class="projects">
+      <!-- Numbered project list. The <sup> is the small raised (1), (2), (3). -->
+
+      <li>
+        <!-- Project 1. -->
+        <a class="has-peek" href="proactive-vest.html"><sup>(1)</sup> Proactive Vest<img class="peek" src="images/proactive-peek.gif" alt=""></a>
+        <!-- The link to the ProActive page. class="has-peek" turns on the hover preview.
+             The <img class="peek"> is the small square slideshow that appears on the right side of the screen when you hover.
+             alt="" because it's decoration: the link text already says where it goes. -->
+      </li>
+
+      <li><a class="has-peek" href="redesign.html"><sup>(2)</sup> When is Redesign Necessary?<img class="peek" src="images/redesign-peek.gif" alt=""></a></li>
+      <!-- Project 2, with the same hover preview as project 1: a fast slideshow of the FreshKDS screens (images/redesign-peek.gif). -->
+
+      <li><a class="has-peek" href="portals.html"><sup>(3)</sup> University portals/other?<img class="peek" src="images/portals-peek.gif" alt=""></a></li>
+      <!-- Project 3, with the same hover preview: a slideshow of the student portal screens (images/portals-peek.gif). -->
+    </ol>
+    <!-- End of the project list. -->
+
+    <ul class="pages">
+      <!-- Other pages. The thin line under CV/Resume is drawn in the CSS. -->
+      <li><a href="play.html">Play</a></li>
+      <!-- Play (your museum). On a computer it opens in the panel on the right, like the projects; on phones it opens as its own page. -->
+      <li><a class="has-peek" href="Varsha-Gartaula-CV.pdf" target="_blank" rel="noopener">CV/Resume<img class="peek peek-tall" src="images/resume-preview.png" alt=""></a></li>
+      <!-- Opens your CV (a PDF) in a new tab. Hovering shows a small picture of the CV in the bottom-right corner,
+           the same spot as the Proactive Vest preview. "peek-tall" makes it page-shaped instead of square.
+           When you update your CV, replace Varsha-Gartaula-CV.pdf and images/resume-preview.png. -->
     </ul>
+    <!-- End of the other pages. -->
+  </nav>
+  <!-- End of the menu. -->
 
-  </header>
+  <!-- THE PROJECT PANEL: when you click a project, it opens here, on the right side of the same page.
+       The project's own file (like proactive-vest.html) is shown inside this frame, without its name and menu.
+       The address changes to index.html#proactive-vest, so each project still has a link you can share. -->
+  <div class="project-panel" hidden>
+    <iframe class="project-frame" title="Project"></iframe>
+    <!-- The frame the case study loads into. js/main.js fills it in. -->
+  </div>
 
-  <section class="hero-section">
-
-    <h1>Varsha is an aspiring product designer, with an interest in tech and front-end development. She majors in
-      Industrial Design at OCADU, and is based in Toronto, Canada. </h1>
-
-
-  </section>
-
-  <script src="script.js"></script>
-
-  <section>
-    <div class="working">
-      <h1>working</h1>
-
-    </div>
-
-  </section>
-
-  <section>
-    <div>
-      <h1> contact </h1>
-    </div>
-  </section>
-
-  <section>
-    <div>
-      <h1> resume/cv </h1>
-    </div>
-  </section>
+  <script src="js/main.js"></script>
+  <!-- Loads the small script that lets phones flip the cards with a tap. -->
 </body>
-
-
-<footer>
-
-
-</footer>
-
+<!-- End of everything visible. -->
 </html>
+<!-- End of the page. -->
