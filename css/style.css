@@ -1,0 +1,371 @@
+/* ==========================================================
+   STYLE.CSS: homepage
+   1 Fonts · 2 Variables · 3 Base · 4 Name · 5 Collage + flip cards
+   6 Menu + hover preview · 6b Project panel · 7 Tablets and phones · 8 Reduced motion
+   Three layouts: computers (1024px wide and up), tablets (640–1023px) and phones (under 640px).
+   ========================================================== */
+
+
+/* ---------- 1. FONTS ---------- */
+
+@font-face {
+  /* Loads EB Garamond from your own fonts/ folder (no Google Fonts needed). */
+  font-family: "EB Garamond";                         /* The name the rest of the CSS uses. */
+  src: url("../fonts/EBGaramond-Regular.woff2") format("woff2"); /* Where the file is. "../" means "go up one folder" from css/. */
+  font-weight: 400;                                   /* This file is the regular weight. */
+  font-style: normal;                                 /* Upright, not italic. */
+  font-display: swap;                                 /* Shows a backup font until Garamond has loaded. */
+}
+
+
+/* ---------- 2. VARIABLES (change colours and sizes here) ---------- */
+
+:root {
+  /* :root means "the whole page"; these variables can be used anywhere below. */
+  --bg: #394200;                                      /* Olive background. */
+  --text: #ffffff;                                    /* Menu text. */
+  --title: #e6e4d6;                                   /* Your name (a slightly softer white). */
+  --accent: #a5b84e;                                  /* Light green when you hover a link. */
+  --line: #8c9170;                                    /* The thin line under CV/Resume. */
+  --cream: #f4f2e6;                                   /* Background of the back of each card. */
+
+  --serif: "EB Garamond", Georgia, serif;             /* Garamond, with Georgia as a backup. */
+  --sans: Helvetica, "Helvetica Neue", Arial, sans-serif; /* Helvetica, with Arial as a backup. */
+
+  --size: clamp(1.75rem, 2.64vw, 2.75rem);            /* Menu text size: 38px on a 1440px screen, never under 28px or over 44px. */
+}
+
+
+/* ---------- 3. BASE ---------- */
+
+* { box-sizing: border-box; margin: 0; padding: 0; } /* Widths include padding; removes all default spacing. */
+
+html, body { height: 100%; }                         /* Lets the page fill the whole window height. */
+
+body {
+  position: relative;                                 /* Lets the pictures be placed freely inside the page. */
+  display: flex;                                      /* Lays the page out as a column... */
+  flex-direction: column;                             /* ...from top to bottom... */
+  justify-content: space-between;                     /* ...with your name at the top and the menu at the bottom. */
+  min-height: max(100vh, calc(31vw + 380px));         /* Tall enough that the menu never slides up over the pictures on short windows (the page scrolls instead). */
+  padding: 17px 18px 42px;                            /* Space around the page: top, sides, bottom. */
+  background: var(--bg);                              /* Olive background. */
+  color: var(--text);                                 /* White text. */
+  font-family: var(--serif);                          /* Garamond for the name and menu. */
+  font-size: var(--size);                             /* Uses the size set in the variables. */
+  line-height: 1.237;                                 /* Space between lines, as in your design. */
+}
+
+a { color: inherit; text-decoration: none; }         /* Links use the surrounding colour and have no underline. */
+ol, ul { list-style: none; }                         /* Removes bullets and numbers from lists. */
+a:focus-visible, .card:focus-visible {               /* When a link or card is reached with the keyboard... */
+  outline: 2px solid var(--accent);                   /* ...it gets a green outline... */
+  outline-offset: 3px;                                /* ...slightly outside it. */
+}
+
+
+/* ---------- 4. NAME ---------- */
+
+.site-title {
+  align-self: flex-start;                             /* Keeps the name only as wide as its text. */
+  font: inherit;                                      /* Same font and size as the rest of the page (headings are bold by default). */
+  color: var(--title);                                /* Slightly softer white. */
+}
+
+
+/* ---------- 5. COLLAGE + FLIP CARDS ---------- */
+/* Positions use vw (1vw = 1% of the window width), so the collage scales as one piece.
+   The numbers are the same as before, measured at 1440px wide. */
+
+.tagline, .card {
+  position: absolute;                                 /* Places each picture exactly where its rule below says. */
+}
+
+.tagline  { left: 13.19vw; top: 16.67vw; width: 28.40vw; height: auto; } /* The hand-lettered tagline. */
+.portrait { left: 2.85vw;  top: 16.67vw; width: 8.06vw;  aspect-ratio: 116 / 174; } /* Portrait card; aspect-ratio keeps the photo's shape. */
+.book     { left: 12.22vw; top: 7.22vw;  width: 7.64vw;  aspect-ratio: 110 / 180; } /* Book card. */
+.climbing { left: 22.08vw; top: 4.10vw;  width: 8.33vw;  aspect-ratio: 120 / 159; } /* Climbing card. */
+.coffee   { left: 32.64vw; top: 6.32vw;  width: 10.49vw; aspect-ratio: 151 / 128; } /* Coffee card. */
+
+.card {
+  perspective: 800px;                                 /* Gives the flip some depth, so it looks 3D. */
+  cursor: pointer;                                    /* Shows a hand cursor, so people know it's interactive. */
+  transition: transform 0.25s ease;                   /* Animates the "pop" (growing slightly) over 0.25 seconds. */
+  z-index: 1;                                         /* Normal stacking order. */
+}
+
+.card:hover, .card:focus-visible, .card:has(:focus-visible), .card.is-flipped { /* When the mouse is over a card, it (or a link on its back) is reached with the keyboard, or it's been tapped... */
+  transform: scale(1.12);                             /* ...it pops: grows to 112% of its size... */
+  z-index: 2;                                         /* ...and sits above the other pictures. */
+}
+
+.card-inner {
+  position: relative;                                 /* Lets the front and back sit exactly on top of each other. */
+  width: 100%;                                        /* Fills the card. */
+  height: 100%;                                       /* Fills the card. */
+  transform-style: preserve-3d;                       /* Keeps the front and back in 3D space so the flip works. */
+  transition: transform 0.6s ease;                    /* Animates the flip over 0.6 seconds. */
+}
+
+.card:hover .card-inner,
+.card:focus-visible .card-inner,
+.card:has(:focus-visible) .card-inner,
+.card.is-flipped .card-inner {                        /* In the same situations... */
+  transform: rotateY(180deg);                         /* ...the card turns half a circle, showing its back. */
+}
+
+.face {
+  position: absolute;                                 /* Front and back both fill the card, on top of each other. */
+  inset: 0;                                           /* Stretches each face to all four edges. */
+  width: 100%;                                        /* Full width. */
+  height: 100%;                                       /* Full height. */
+  backface-visibility: hidden;                        /* Hides each face when it's turned away, so you only see one side. */
+  -webkit-backface-visibility: hidden;                /* The same rule for Safari. */
+}
+
+.front {
+  object-fit: cover;                                  /* Fills the card with the photo without stretching it. */
+}
+
+.back {
+  transform: rotateY(180deg);                         /* Starts the back already turned around, so it faces you after the flip. */
+  background: var(--cream);                           /* Cream background. */
+  color: var(--bg);                                   /* Olive text. */
+  padding: 8px;                                       /* Space inside the edges. */
+  display: flex;                                      /* Stacks the text... */
+  flex-direction: column;                             /* ...top to bottom... */
+  justify-content: center;                            /* ...centred vertically. */
+  gap: 4px;                                           /* Small gap between lines. */
+  font-family: var(--sans);                           /* Helvetica for the back text. */
+  font-size: 11px;                                    /* Small, because the cards are small. */
+  line-height: 14px;                                  /* Line spacing to match. */
+  overflow-wrap: anywhere;                            /* Lets a long email address break onto two lines instead of overflowing. */
+}
+
+.back a {
+  text-decoration: underline;                         /* Underlines links on the back so they look clickable. */
+}
+
+.back a:hover {
+  color: #5c6a00;                                     /* Darker olive when hovered. */
+}
+
+.back ul {
+  display: flex;                                      /* Stacks the book list... */
+  flex-direction: column;                             /* ...top to bottom... */
+  gap: 4px;                                           /* ...with a small gap between books. */
+}
+
+.back-title {
+  font-size: 10px;                                    /* The small heading on each back. */
+  letter-spacing: 0.04em;                             /* Slightly spaced out letters. */
+  text-transform: uppercase;                          /* Capital letters. */
+  opacity: 0.75;                                      /* A little lighter than the main text. */
+}
+
+.coffee .back-big {
+  font-size: 18px;                                    /* The coffee card has more text, so its big line is a bit smaller to fit. */
+  line-height: 22px;                                  /* Line spacing to match. */
+}
+
+.back-note {
+  margin-top: 4px;                                    /* A little extra space above this line. */
+  opacity: 0.75;                                      /* Slightly lighter, as a supporting detail. */
+}
+
+.back-big {
+  font-size: 24px;                                    /* Larger text for the big number (still Helvetica, like all card text). */
+  line-height: 28px;                                  /* Line spacing to match. */
+}
+
+
+/* One by one: when the page loads, each picture appears 0.4 seconds after the one before. */
+@keyframes shake {
+  /* An animation called "shake": a small side-to-side wiggle. */
+  0%, 100% { transform: rotate(0deg); }            /* Starts and ends straight. */
+  15%      { transform: rotate(-3deg); }           /* Tilts left... */
+  30%      { transform: rotate(3deg); }            /* ...then right... */
+  45%      { transform: rotate(-2deg); }           /* ...left again, a little less... */
+  60%      { transform: rotate(1.5deg); }          /* ...right, less again... */
+  75%      { transform: rotate(-0.5deg); }         /* ...and settles gently. */
+}
+
+@keyframes appear {
+  /* An animation called "appear". */
+  from { opacity: 0; transform: scale(0.94); }     /* It starts invisible and slightly small... */
+  to   { opacity: 1; transform: scale(1); }        /* ...and ends fully visible at normal size. */
+}
+
+.tagline, .card {
+  animation: appear 0.3s ease backwards;           /* Each picture plays "appear" over 0.3 seconds. "backwards" keeps it hidden until its turn. */
+}
+
+.tagline  { animation-delay: 0.4s; }               /* 1st: the tagline, after 0.4 seconds. */
+.portrait {
+  animation: appear 0.3s ease 0.8s backwards;      /* 2nd: the portrait appears, 0.4 seconds after the tagline. */
+}
+.portrait.settled {
+  animation: none;                                 /* Once the portrait has appeared, js/main.js adds "settled", so the "appear" animation never replays (that replay made it vanish). */
+}
+.portrait.settled.is-shaking {
+  animation: shake 0.9s ease-in-out;               /* One soft wiggle. js/main.js adds this class every 2 seconds until someone hovers a picture. */
+  transform-origin: 50% 100%;                      /* The wiggle pivots from the bottom of the photo, like something set down on a table. */
+}
+.book     { animation-delay: 1.2s; }               /* 3rd: the book. */
+.climbing { animation-delay: 1.6s; }               /* 4th: the climbing photo. */
+.coffee   { animation-delay: 2.0s; }               /* 5th: the coffee. To change the order, swap these delays. */
+
+
+/* ---------- 6. MENU + HOVER PREVIEW ---------- */
+
+.projects { margin-bottom: 1.237em; }                /* One empty line before Play. */
+
+.menu a:hover, .menu a:focus-visible {
+  color: var(--accent);                               /* Links turn green on hover or keyboard focus. */
+}
+
+sup {
+  font-size: 0.4em;                                   /* The small raised (1) (2) (3). */
+  vertical-align: top;                                /* Lines it up with the top of the text. */
+  position: relative;                                 /* Allows the small nudge below. */
+  top: 0.45em;                                        /* Nudges it down to sit neatly. */
+  margin-right: 0.15em;                               /* A small gap before the project name. */
+}
+
+.peek {
+  position: fixed;                                    /* Places the preview relative to the browser window, not the link. */
+  right: 18px;                                        /* 18px from the right edge, matching the page's side spacing. */
+  bottom: 42px;                                       /* 42px from the bottom, level with the bottom of the menu. */
+  width: 240px;                                       /* A 240px square. */
+  height: 240px;
+  object-fit: cover;                                  /* Fills the square without stretching. */
+  opacity: 0;                                         /* Hidden until you hover the link. */
+  transform: scale(0.94);                             /* Starts slightly small... */
+  transition: opacity 0.2s ease, transform 0.2s ease; /* ...then fades and grows in over 0.2 seconds. */
+  pointer-events: none;                               /* The mouse passes through it, so it never blocks anything. */
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);        /* A soft shadow so it stands off the background. */
+}
+
+.has-peek:hover .peek, .has-peek:focus-visible .peek {
+  opacity: 1;                                         /* On hover or keyboard focus, it appears... */
+  transform: scale(1);                                /* ...at full size. */
+}
+
+.peek-ticket {
+  width: 400px;                                       /* The Play preview: your ticket, wider than the square previews... */
+  height: auto;                                       /* ...at its own shape. */
+  box-shadow: none;                                   /* No box or shadow: the ticket sits straight on the olive background. */
+}
+
+.peek-tall {
+  height: 340px;                                      /* The CV preview is a page, so it's taller (A4 shape: 240 wide × 340 tall). */
+  object-fit: contain;                                /* Shows the whole page without cropping. */
+  object-position: top;                               /* Lines it up from the top. */
+  background: #ffffff;                                /* White behind the page. */
+}
+
+.pages {
+  width: 41.5vw;                                      /* The thin line is 41.5% of the screen width. */
+  padding-bottom: 15px;                               /* Space between CV/Resume and the line. */
+  border-bottom: 1px solid var(--line);               /* The line itself. */
+}
+
+
+/* ---------- 6b. PROJECT PANEL (projects open on the right, on the same page) ---------- */
+
+.home-link:hover, .home-link:focus-visible { color: var(--accent); } /* Your name turns green on hover, since it's now a link home. */
+
+.project-panel {
+  position: fixed;                                    /* Stays put while the case study scrolls inside it. */
+  top: 0; right: 0; bottom: 0;                        /* Full height, up to the right edge... */
+  left: var(--split, calc(18px + 41.5vw));            /* ...starting exactly where the line under CV/Resume ends. js/main.js measures this, and moves it right if the menu text is wider. */
+  border-left: 1px solid rgba(244, 242, 230, 0.35);   /* The thin vertical line between the menu and the case study. */
+  background: var(--bg);                              /* Olive behind it while it loads. */
+  opacity: 0;                                         /* Starts invisible... */
+  transform: translateX(24px);                        /* ...and slightly to the right... */
+  transition: opacity 0.45s cubic-bezier(.2,.7,.2,1), transform 0.45s cubic-bezier(.2,.7,.2,1); /* ...then fades and glides in, easing to a soft stop. */
+}
+.project-open .project-panel { opacity: 1; transform: none; } /* The panel's visible state. */
+
+.project-frame { width: 100%; height: 100%; border: 0; display: block; } /* The frame fills the panel, with no border. */
+
+.collage { transition: opacity 0.35s ease; }          /* The pictures fade... */
+.project-open .collage { opacity: 0; pointer-events: none; } /* ...out while a project is open. */
+.project-open .peek { display: none; }                /* No hover previews while a project is open. */
+.project-open .pages { width: calc(var(--split, calc(18px + 41.5vw)) - 18px); } /* The line under CV/Resume runs right up to the panel. */
+.menu a[aria-current="page"] { color: var(--accent); } /* The open project's name stays green in the menu. */
+
+
+/* ---------- 7. TABLETS AND PHONES ---------- */
+
+@media (hover: none) {
+  /* On touch screens (no mouse), only a tap flips a card: this stops a "stuck" hover from keeping it flipped. */
+  .card:hover:not(.is-flipped) { transform: none; }                 /* No pop unless tapped. */
+  .card:hover:not(.is-flipped) .card-inner { transform: none; }     /* No flip unless tapped. */
+}
+
+@media (max-width: 1023px) {
+  /* TABLETS AND PHONES (under 1024px wide): everything stacks from top to bottom and the page scrolls.
+     Projects and Play open as their own pages (no side panel), and there are no hover previews. */
+
+  html, body { height: auto; }                        /* The page grows with its content instead of fitting the window. */
+  body {
+    display: block;                                   /* Normal top-to-bottom flow: name, pictures, menu. */
+    min-height: 100vh;                                /* At least the height of the screen. */
+    padding: 17px 18px 40px;                          /* Space around the page. */
+    font-size: 32px;                                  /* Name and menu text size on tablets. */
+  }
+
+  .collage {
+    position: relative;                               /* The pictures are placed inside this box... */
+    width: min(100%, 640px);                          /* ...which is as wide as the screen, up to 640px... */
+    aspect-ratio: 40.28 / 26.39;                      /* ...and keeps the collage's shape. */
+    margin: 40px 0 48px;                              /* Space below your name and above the menu. */
+  }
+  /* The same arrangement as on a computer, measured as % of the box instead of the window. */
+  .tagline  { left: 25.67%; top: 47.63%; width: 70.51%; }
+  .portrait { left: 0;      top: 47.63%; width: 20.01%; }
+  .book     { left: 23.29%; top: 11.81%; width: 18.97%; }
+  .climbing { left: 47.74%; top: 0;      width: 20.68%; }
+  .coffee   { left: 73.96%; top: 8.42%;  width: 26.04%; }
+
+  .pages { width: 100%; }                             /* The line under CV/Resume goes the full width. */
+  .peek { display: none; }                            /* No hover previews (touch screens can't hover). */
+  .project-panel { display: none; }                   /* Projects open as their own page instead. */
+}
+
+@media (max-width: 639px) {
+  /* PHONES (under 640px wide): the pictures become a tidy grid so the card backs are big enough to read. */
+
+  body { font-size: 28px; }                           /* Name and menu text a little smaller. */
+
+  .collage {
+    display: grid;                                    /* A grid... */
+    grid-template-columns: repeat(2, minmax(0, 1fr)); /* ...of two columns... */
+    gap: 16px;                                        /* ...with 16px between pictures. */
+    aspect-ratio: auto;                               /* The grid sets its own height. */
+    width: 100%;
+    margin: 32px 0 40px;
+    align-items: center;                              /* Centres pictures in each row. */
+  }
+
+  .tagline, .card {
+    position: static;                                 /* Pictures stop floating and sit in the grid. */
+    width: 100%;                                      /* Each fills its grid cell. */
+  }
+
+  .tagline { grid-column: 1 / -1; }                   /* The tagline spans both columns. */
+
+  .back { font-size: 13px; line-height: 18px; padding: 12px; } /* Bigger back text, since the cards are bigger on phones. */
+  .back-title { font-size: 11px; }                    /* Slightly bigger heading. */
+}
+
+
+/* ---------- 8. REDUCED MOTION ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  /* For visitors who've asked their device to reduce motion. */
+  .card, .card-inner, .peek { transition: none; }     /* The pop, flip and preview happen instantly, with no animation. */
+  .project-panel, .collage { transition: none; }      /* The project panel appears instantly too. */
+  .tagline, .card { animation: none; }                /* The pictures show straight away instead of one by one. */
+}
