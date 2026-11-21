@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <!-- A project page, built from its "(edit me)" design on the canvas.
-     On a computer it opens INSIDE the homepage (index.html), on the right side of the screen.
-     If someone opens this file directly, it sends them to the homepage with this project open.
-     On phones it shows as its own page, exactly like the design. -->
+     On a computer (1024px wide and up) it opens INSIDE the homepage (index.html), on the right side of the screen.
+     If someone opens this file directly on a computer, it sends them to the homepage with this project open.
+     On tablets and phones it shows as its own page, with your name at the top linking home. -->
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <!-- Lets symbols like – and “ ” show correctly. -->
-  <meta name="viewport" content="width=1440">
-  <!-- The design is drawn 1440px wide, so phones show the whole page zoomed out instead of squashing it. -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Makes the page fit phone and tablet screens. The layout adapts (see "RESPONSIVE" in the styles below). -->
   <title>ProActive · Varsha Gartaula</title>
   <!-- The text on the browser tab. -->
   <script>
@@ -17,7 +17,7 @@
       // "?embed" in the address means the homepage is showing this page in its right-hand panel...
       document.documentElement.classList.add("embed");
       // ...so we hide the name and menu (the homepage already shows them).
-    } else if (window.innerWidth > 700 && window.top === window) {
+    } else if (window.innerWidth >= 1024 && window.top === window) {
       // Opened directly on a computer: go to the homepage instead, with this project open.
       location.replace("index.html#proactive-vest");
     }
@@ -49,6 +49,38 @@ a{color:#f4f2e6;text-decoration:none}a:hover{color:#a5b84e}
     .embed .sheet { width: auto !important; min-height: 0 !important; }
     .embed .case { margin-left: 18px !important; padding-top: var(--top, 22px) !important; }
     /* 18px from the line, like the homepage's 18px margin. The top padding is set by the homepage so the first line sits level with your name. */
+
+    /* ---------- RESPONSIVE (added so the page works on any screen) ----------
+       The case study is designed 890px wide.
+       - Wide enough (640px and up): the design is shown as drawn, scaled down slightly if needed to fit.
+       - Phones (under 640px): the page gets the class "narrow" and everything stacks into one column. */
+
+    /* Opened on its own (tablets and phones): your name sits at the top as a link home; the side menu and lines are hidden. */
+    html:not(.embed) .chrome { display: none; }
+    html:not(.embed) a.chrome { display: block !important; position: static !important; padding: 17px 18px 0; font-size: 32px; line-height: 40px; }
+    html:not(.embed) .sheet, .narrow .sheet { width: auto !important; min-height: 0 !important; }
+    html:not(.embed) .case { margin: 0 auto !important; padding-left: 18px; padding-right: 18px; box-sizing: content-box; }
+
+    /* Phones: one column. "fixed-fig" marks the small screen mockups, which keep their own layout and are scaled to fit instead. */
+    .narrow .case { margin: 0 !important; width: auto !important; padding: 24px 18px 64px !important; box-sizing: border-box; }
+    .narrow .case [style*="grid-template-columns"]:not(.fixed-fig *) { grid-template-columns: minmax(0, 1fr) !important; row-gap: 16px; }
+    .narrow .case [style*="grid-template-columns:repeat(4"]:not(.fixed-fig *) { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; column-gap: 16px !important; }
+    .narrow .case [style*="grid-column"]:not(.fixed-fig *) { grid-column: auto !important; }
+    .narrow .case [style*="display:flex"]:not(.fixed-fig *):not(.chapter-head) { flex-wrap: wrap; }
+    .narrow .case [style*="width:"]:not(.fixed-fig):not(.fixed-fig *) { max-width: 100%; }
+    .narrow .case img:not(.fixed-fig *) { max-width: 100%; height: auto !important; }
+    .narrow .case [style*="position:absolute"]:not(.fixed-fig *):not([style*="clip:rect"]) { position: static !important; }
+    .narrow .case [style*="height:"]:not(img):not(.fixed-fig):not(.fixed-fig *) { height: auto !important; }
+    .narrow .case [style*="font-size:64px"]:not(.fixed-fig *) { font-size: 40px !important; line-height: 46px !important; }
+    .narrow .case [style*="font-size:40px"]:not(.fixed-fig *) { font-size: 28px !important; line-height: 34px !important; }
+    .narrow .case [style*="font-size:32px"]:not(.fixed-fig *) { font-size: 24px !important; line-height: 30px !important; }
+    .narrow .chapter-body { padding: 8px 0 48px 0 !important; }
+    .narrow .chapter-head > span:first-child { width: 32px !important; font-size: 18px !important; }
+    .narrow .chapter-head > span[aria-hidden="true"]:not(.toggle) { display: none; }
+    .narrow .chapter-head > span:nth-child(4) { display: none; }
+    /* On phones the dotted leader and the page number are hidden, so the chapter title has room. */
+    .narrow .chapter-head > span:nth-child(2) { flex: 1 1 auto !important; min-width: 0; }
+    .narrow .fixed-fig { flex: none; }
   </style>
 </head>
 <body>
@@ -227,19 +259,39 @@ a{color:#f4f2e6;text-decoration:none}a:hover{color:#a5b84e}
     // Enter or Space toggles it for keyboard users.
   });
 
+  function fit() {
+    // Runs when the page loads and whenever the window changes size.
+    var root = document.documentElement;
+    var w = window.innerWidth;
+    var caseEl = document.querySelector('.case');
+    var narrow = w < 640;
+    root.classList.toggle('narrow', narrow);
+    // Phones get the one-column layout.
+    var side = root.classList.contains('embed') ? 18 : 36;
+    caseEl.style.zoom = narrow ? '' : Math.min(1, (w - side - 18) / 890);
+    // Wider screens see the design as drawn, scaled down a little if the window is narrower than it.
+    document.querySelectorAll('.fixed-fig').forEach(function (fig) {
+      // The small screen mockups keep their layout and shrink to fit the column on phones.
+      var figW = parseFloat(fig.style.width) || fig.offsetWidth;
+      var par = fig.parentElement, cs = getComputedStyle(par);
+      var avail = Math.min(caseEl.clientWidth - 36, par.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight));
+      // The room available: the column, minus any padding around the mockup.
+      fig.style.zoom = narrow ? Math.min(1, avail / figW) : '';
+    });
+    var top = parseFloat((location.search.match(/[?&]top=([0-9.]+)/) || [])[1]);
+    // Inside the homepage: how far down your name starts, so the first line can sit level with it.
+    var z = parseFloat(caseEl.style.zoom) || 1;
+    if (top && !narrow) root.style.setProperty('--top', Math.max(0, top / z - 4.6) + 'px');
+  }
+  document.querySelectorAll('.case [style*="transform:scale"]').forEach(function (inner) {
+    // Marks each screen mockup's frame as a "fixed-fig" (see the CSS above).
+    inner.parentElement.classList.add('fixed-fig');
+  });
+  fit();
+  window.addEventListener('resize', fit);
+
   if (document.documentElement.classList.contains('embed')) {
     // Inside the homepage panel:
-    function fit() {
-      // The case study is 890px wide. If the panel is narrower, shrink it to fit instead of scrolling sideways.
-      var zoom = Math.min(1, (window.innerWidth - 18) / 926);
-      document.body.style.zoom = zoom;
-      var top = parseFloat((location.search.match(/[?&]top=([0-9.]+)/) || [])[1]);
-      // How far down the homepage's name starts (sent by the homepage).
-      if (top) document.documentElement.style.setProperty('--top', Math.max(0, top / zoom - 4.6) + 'px');
-      // Moves the first line of the case study level with your name.
-    }
-    fit();
-    window.addEventListener('resize', fit);
     document.addEventListener('click', function (e) {
       // When a link to another of your pages is clicked (like "Next project"), ask the homepage to open it.
       var a = e.target.closest('a');
