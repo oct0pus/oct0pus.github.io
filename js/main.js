@@ -133,9 +133,60 @@ function isWide() {
 
 function slugOf(href) {
   // Turns "redesign.html" (or "redesign.html#something") into "redesign", or "" if it isn't a project.
-  const name = (href || "").split("#")[0].replace(/^.*\//, "").replace(/\.html$/, "");
+  // (The French copies end in "-fr", e.g. "redesign-fr.html", so that ending is removed too.)
+  const name = (href || "").split("#")[0].split("?")[0].replace(/^.*\//, "").replace(/\.html$/, "").replace(/-fr$/, "");
   return PROJECTS.includes(name) ? name : "";
 }
+
+/* ----------------------------------------------------------
+   ENGLISH / FRENCH
+   - The EN / FR switch next to your name changes the language.
+   - Every label with data-fr="…" in index.html swaps to that French text.
+   - Projects open their French copies (proactive-vest-fr.html, redesign-fr.html, portals-fr.html).
+   - The choice is remembered in this browser. With no choice yet, a visitor whose browser
+     is set to French sees French first. Adding ?lang=fr (or ?lang=en) to the address forces a language.
+   ---------------------------------------------------------- */
+const HAS_FRENCH = ["proactive-vest", "redesign", "portals"];  // Projects that have a French copy (Play doesn't need one).
+function readSaved() {
+  try { return localStorage.getItem("lang"); } catch (e) { return null; }   // Some private windows block storage.
+}
+function save(value) {
+  try { localStorage.setItem("lang", value); } catch (e) {}
+}
+const langInAddress = (location.search.match(/[?&]lang=(en|fr)/) || [])[1];
+if (langInAddress) save(langInAddress);
+let lang = langInAddress
+  || readSaved()
+  || ((navigator.language || "").toLowerCase().startsWith("fr") ? "fr" : "en");
+function pageFor(slug) {
+  // The file to open for a project in the current language, e.g. "redesign-fr.html".
+  return slug + (lang === "fr" && HAS_FRENCH.includes(slug) ? "-fr" : "") + ".html";
+}
+function applyLanguage() {
+  document.documentElement.lang = lang;
+  document.querySelectorAll("[data-fr]").forEach((el) => {
+    if (el.dataset.en === undefined) el.dataset.en = el.textContent;   // Remember the English the first time.
+    el.textContent = lang === "fr" ? el.dataset.fr : el.dataset.en;
+  });
+  document.querySelectorAll(".lang-btn").forEach((btn) => {
+    btn.setAttribute("aria-pressed", btn.dataset.lang === lang ? "true" : "false");
+  });
+  document.querySelectorAll(".projects a").forEach((link) => {
+    const slug = slugOf(link.getAttribute("href"));
+    if (slug) link.setAttribute("href", pageFor(slug));   // So phones open the right language too.
+  });
+}
+document.querySelectorAll(".lang-btn").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    if (btn.dataset.lang === lang) return;
+    lang = btn.dataset.lang;
+    save(lang);
+    applyLanguage();
+    placePanel();                         // The titles changed length, so re-measure where the panel starts.
+    showFromAddress();                    // If a project is open, reload it in the new language.
+  });
+});
+applyLanguage();
 
 function nameTop() {
   // Where the top of the letters in your name sits, measured from the top of the window.
@@ -171,17 +222,18 @@ function showFromAddress() {
   const slug = location.hash.slice(1);
   if (!isWide() && PROJECTS.includes(slug)) {
     // On a tablet or phone, a link like index.html#redesign goes straight to the project's own page.
-    location.replace(slug + ".html");
+    location.replace(pageFor(slug));
     return;
   }
   if (isWide() && PROJECTS.includes(slug)) {
-    if (frame.dataset.slug !== slug) {
-      const url = slug + ".html?embed&top=" + nameTop().toFixed(1);
+    if (frame.dataset.slug !== slug || frame.dataset.lang !== lang) {
+      const url = pageFor(slug) + "?embed&top=" + nameTop().toFixed(1);
       // The project page in "embed" mode (without its own name and menu), told where your name starts so its first line can sit level with it.
       if (frame.dataset.slug) frame.contentWindow.location.replace(url);
       else frame.src = url;
       // Loads it. "replace" swaps the page without adding an extra step to the back button.
       frame.dataset.slug = slug;
+      frame.dataset.lang = lang;
     }
     panel.hidden = false;
     void panel.offsetWidth;

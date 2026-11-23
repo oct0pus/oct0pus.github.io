@@ -22,7 +22,9 @@
 <body>
   <!-- Everything visible starts here. -->
 
-  <h1 class="site-title"><a class="home-link" href="index.html">Varsha Gartaula</a></h1>
+  <h1 class="site-title"><a class="home-link" href="index.html">Varsha Gartaula</a><span class="lang" role="group" aria-label="Language / Langue"><button type="button" class="lang-btn" data-lang="en" aria-pressed="true">EN</button><span class="lang-sep" aria-hidden="true">/</span><button type="button" class="lang-btn" data-lang="fr" lang="fr" aria-pressed="false">FR</button></span></h1>
+  <!-- The EN / FR switch next to your name. Clicking FR swaps every label that has a data-fr="…" to its French,
+       and opens the French copies of your projects (proactive-vest-fr.html etc.). The choice is remembered. -->
   <!-- Your name, top left. When a project is open, clicking it closes the project and brings the pictures back. -->
 
   <!-- THE COLLAGE: the tagline plus four flip cards, all visible straight away.
@@ -32,7 +34,9 @@
   <div class="collage">
     <!-- A wrapper around all the pictures, so they can be rearranged together on small screens. -->
 
-    <img class="tagline" src="images/tagline.png" alt="Creative, ambitious, data-driven (hand-lettered)">
+    <img class="tagline tagline-en" src="images/tagline.png" alt="Creative, ambitious, data-driven (hand-lettered)">
+    <img class="tagline tagline-fr" src="images/tagline-fr.png" lang="fr" alt="Product designer, créative, ambitieuse et orientée données (écrit à la main)">
+    <!-- Two versions of the tagline: the English one shows by default, the French one when someone clicks FR. -->
     <!-- The hand-lettered tagline. It doesn't flip; it's just a picture. -->
 
     <!-- ----- Card 1: portrait → contact details ----- -->
@@ -44,9 +48,9 @@
         <!-- The front: your photo. -->
         <div class="face back">
           <!-- The back: your contact details. -->
-          <p class="back-title">Say hello</p>
+          <p class="back-title" data-fr="Écrivez-moi">Say hello</p>
           <!-- A small heading. -->
-          <a href="mailto:varshagartaula@gmail.com">Email</a>
+          <a href="mailto:varshagartaula@gmail.com" data-fr="E-mail">Email</a>
           <!-- The word "Email" links to your address. mailto: opens the visitor's email app with your address filled in. -->
           <a href="https://www.linkedin.com/in/varshagartaula" target="_blank" rel="noopener">LinkedIn</a>
           <!-- The word "LinkedIn" links to your profile. target="_blank" opens it in a new tab; rel="noopener" is a safety setting for that. -->
@@ -66,7 +70,7 @@
         <!-- The front: the book cover. -->
         <div class="face back">
           <!-- The back: the books you're currently reading. -->
-          <p class="back-title">Currently reading</p>
+          <p class="back-title" data-fr="En ce moment, je lis">Currently reading</p>
           <!-- A small heading. -->
           <ul>
             <!-- A list. Add an <li> line for each book you're reading. -->
@@ -90,7 +94,7 @@
         <!-- The front: the climbing photo. -->
         <div class="face back">
           <!-- The back: your climbing level. -->
-          <p class="back-title">Climbing</p>
+          <p class="back-title" data-fr="Escalade">Climbing</p>
           <!-- A small heading. -->
           <p class="back-big">6a–6b</p>
           <!-- Your grade, shown larger. -->
@@ -131,26 +135,26 @@
 
       <li>
         <!-- Project 1. -->
-        <a class="has-peek" href="proactive-vest.html"><sup>(1)</sup>ProActive Vest<img class="peek" src="images/proactive-peek.gif" alt=""></a>
+        <a class="has-peek" href="proactive-vest.html"><sup>(1)</sup><span data-fr="Gilet ProActive">ProActive Vest</span><img class="peek" src="images/proactive-peek.gif" alt=""></a>
         <!-- The link to the ProActive page. class="has-peek" turns on the hover preview.
              The <img class="peek"> is the small square slideshow that appears on the right side of the screen when you hover.
              alt="" because it's decoration: the link text already says where it goes. -->
       </li>
 
-      <li><a class="has-peek" href="redesign.html"><sup>(2)</sup>When is Redesign Necessary?<img class="peek" src="images/redesign-peek.gif" alt=""></a></li>
+      <li><a class="has-peek" href="redesign.html"><sup>(2)</sup><span data-fr="Quand faut-il tout repenser ?">When is Redesign Necessary?</span><img class="peek" src="images/redesign-peek.gif" alt=""></a></li>
       <!-- Project 2, with the same hover preview as project 1: a fast slideshow of the FreshKDS screens (images/redesign-peek.gif). -->
 
-      <li><a class="has-peek" href="portals.html"><sup>(3)</sup>Mapping Courses to Careers<img class="peek" src="images/portals-peek.gif" alt=""></a></li>
+      <li><a class="has-peek" href="portals.html"><sup>(3)</sup><span data-fr="Des cours aux carrières">Mapping Courses to Careers</span><img class="peek" src="images/portals-peek.gif" alt=""></a></li>
       <!-- Project 3, with the same hover preview: a slideshow of the student portal screens (images/portals-peek.gif). -->
     </ol>
     <!-- End of the project list. -->
 
     <ul class="pages">
       <!-- Other pages. The thin line under CV/Resume is drawn in the CSS. -->
-      <li><a class="has-peek" href="play.html">Play<img class="peek peek-ticket" src="images/play-peek.gif" alt=""></a></li>
+      <li><a class="has-peek" href="play.html"><span data-fr="Le Jeu">Play</span><img class="peek peek-ticket" src="images/play-peek.gif" alt=""></a></li>
       <!-- Play (your museum). On a computer it opens in the panel on the right, like the projects; on phones it opens as its own page.
            Hovering it shows your ticket being torn (images/play-peek.gif) in the corner. -->
-      <li><a class="has-peek" href="Varsha-Gartaula-CV.pdf" target="_blank" rel="noopener">CV/Resume<img class="peek peek-tall" src="images/resume-preview.png" alt=""></a></li>
+      <li><a class="has-peek" href="Varsha-Gartaula-CV.pdf" target="_blank" rel="noopener"><span data-fr="CV">CV/Resume</span><img class="peek peek-tall" src="images/resume-preview.png" alt=""></a></li>
       <!-- Opens your CV (a PDF) in a new tab. Hovering shows a small picture of the CV in the bottom-right corner,
            the same spot as the ProActive Vest preview. "peek-tall" makes it page-shaped instead of square.
            When you update your CV, replace Varsha-Gartaula-CV.pdf and images/resume-preview.png. -->

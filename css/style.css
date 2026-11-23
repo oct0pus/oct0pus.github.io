@@ -72,6 +72,30 @@ a:focus-visible, .card:focus-visible {               /* When a link or card is r
   color: var(--title);                                /* Slightly softer white. */
 }
 
+/* ---------- THE EN / FR SWITCH (next to your name) ---------- */
+.site-title {
+  display: flex;                                      /* Puts the switch on the same line as your name... */
+  align-items: baseline;                              /* ...sitting on the same baseline... */
+  gap: 20px;                                          /* ...with a little space between them. */
+}
+.lang {
+  font-family: Helvetica, "Helvetica Neue", Arial, sans-serif; /* Small and quiet, like the labels in your case studies. */
+  font-size: 13px;
+  line-height: 18px;
+  letter-spacing: 0.04em;
+  color: #a9a78f;                                     /* The language you're NOT viewing is a soft grey. */
+  white-space: nowrap;
+}
+.lang-btn {
+  all: unset;                                         /* Removes the browser's default button look. */
+  cursor: pointer;
+  color: #a9a78f;
+}
+.lang-btn[aria-pressed="true"] { color: #f4f2e6; }  /* The language you ARE viewing is cream. */
+.lang-btn:hover, .lang-btn:focus-visible { color: var(--accent); } /* Green on hover, like your other links. */
+.lang-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.lang-sep { margin: 0 6px; opacity: 0.6; }          /* The thin slash between EN and FR. */
+
 
 /* ---------- 5. COLLAGE + FLIP CARDS ---------- */
 /* Positions use vw (1vw = 1% of the window width), so the collage scales as one piece.
@@ -82,9 +106,12 @@ a:focus-visible, .card:focus-visible {               /* When a link or card is r
 }
 
 .tagline  { left: 13.19vw; top: 16.67vw; width: 28.40vw; height: auto; } /* The hand-lettered tagline. */
+.tagline-fr { left: calc(18px + 14.31vw); top: 19.4vw; width: 27.19vw; } /* The French tagline: a little smaller and lower than the English one, ending where the line under CV/Resume ends. */
+.tagline-fr, html[lang="fr"] .tagline-en { display: none; }   /* English tagline normally... */
+html[lang="fr"] .tagline-fr { display: block; }               /* ...French tagline when the site is in French. */
 .portrait { left: 2.85vw;  top: 16.67vw; width: 8.06vw;  aspect-ratio: 116 / 174; } /* Portrait card; aspect-ratio keeps the photo's shape. */
 .book     { left: 12.22vw; top: 7.22vw;  width: 7.64vw;  aspect-ratio: 110 / 180; } /* Book card. */
-.climbing { left: 22.08vw; top: 4.10vw;  width: 8.33vw;  aspect-ratio: 120 / 159; } /* Climbing card. */
+.climbing { left: 22.08vw; top: 5.63vw;  width: 8.33vw;  aspect-ratio: 120 / 159; } /* Climbing card (lowered a little so it has room under your name). */
 .coffee   { left: 32.64vw; top: 6.32vw;  width: 10.49vw; aspect-ratio: 151 / 128; } /* Coffee card. */
 
 .card {
@@ -157,13 +184,13 @@ a:focus-visible, .card:focus-visible {               /* When a link or card is r
 }
 
 .back-title {
-  font-size: 10px;                                    /* The small heading on each back. */
-  letter-spacing: 0.04em;                             /* Slightly spaced out letters. */
-  text-transform: uppercase;                          /* Capital letters. */
-  opacity: 0.75;                                      /* A little lighter than the main text. */
+  font-family: "EB Garamond", Georgia, serif;         /* The small heading on each back, in the same font as your name and menu. */
+  font-size: 16px;                                    /* Written like a normal title (not all capitals). */
+  line-height: 18px;                                  /* Line spacing to match. */
 }
 
 .coffee .back-big {
+  font-family: "EB Garamond", Georgia, serif;         /* "J'habite à Paris depuis 2 ans" in the same font as the card titles. */
   font-size: 18px;                                    /* The coffee card has more text, so its big line is a bit smaller to fit. */
   line-height: 22px;                                  /* Line spacing to match. */
 }
@@ -229,7 +256,20 @@ sup {
   vertical-align: top;                                /* Lines it up with the top of the text. */
   position: relative;                                 /* Allows the small nudge below. */
   top: 0.45em;                                        /* Nudges it down to sit neatly. */
-  margin-right: 0.15em;                               /* A small gap before the project name. */
+  margin-right: 0.45em;                               /* The gap before the project name (on tablets and phones, where the number sits in the line). */
+}
+
+@media (min-width: 1024px) {
+  /* COMPUTERS: "hanging" numbers. The (1) (2) (3) sit out in the left margin, so every title,
+     Play, CV/Resume and your name all start on the same left edge. */
+  body { padding-left: 40px; }                        /* A wider left margin (was 18px) to make room for the numbers. */
+  .projects a { position: relative; }                 /* The number is placed relative to its link... */
+  .projects sup {
+    position: absolute;                               /* ...taken out of the line, so the title starts at the left edge... */
+    right: 100%;                                      /* ...and placed just to the left of the title... */
+    margin-right: 0.3em;                              /* ...with a small gap between number and title. */
+  }
+  body .pages { width: calc(41.5vw - 22px); }         /* The line under CV/Resume still ends where it did (the margin grew by 22px). */
 }
 
 .peek {
@@ -292,7 +332,7 @@ sup {
 .collage { transition: opacity 0.35s ease; }          /* The pictures fade... */
 .project-open .collage { opacity: 0; pointer-events: none; } /* ...out while a project is open. */
 .project-open .peek { display: none; }                /* No hover previews while a project is open. */
-.project-open .pages { width: calc(var(--split, calc(18px + 41.5vw)) - 18px); } /* The line under CV/Resume runs right up to the panel. */
+.project-open .pages { width: calc(var(--split, calc(18px + 41.5vw)) - 40px); } /* The line under CV/Resume runs right up to the panel (40px is the left margin on computers). */
 .menu a[aria-current="page"] { color: var(--accent); } /* The open project's name stays green in the menu. */
 
 
@@ -305,6 +345,9 @@ sup {
 }
 
 @media (max-width: 1023px) {
+  .site-title { align-self: stretch; justify-content: space-between; } /* The EN / FR switch moves to the far right of your name's line. */
+  .lang { font-size: 15px; }                        /* A touch bigger, easier to tap. */
+  .lang-btn { padding: 8px 2px; }                   /* Bigger tap area without looking bigger. */
   /* TABLETS AND PHONES (under 1024px wide): everything stacks from top to bottom and the page scrolls.
      Projects and Play open as their own pages (no side panel), and there are no hover previews. */
 
@@ -324,9 +367,10 @@ sup {
   }
   /* The same arrangement as on a computer, measured as % of the box instead of the window. */
   .tagline  { left: 25.67%; top: 47.63%; width: 70.51%; }
+  .tagline-fr { left: 24%; width: 75%; }           /* The longer French tagline, a little wider. */
   .portrait { left: 0;      top: 47.63%; width: 20.01%; }
   .book     { left: 23.29%; top: 11.81%; width: 18.97%; }
-  .climbing { left: 47.74%; top: 0;      width: 20.68%; }
+  .climbing { left: 47.74%; top: 5.79%;  width: 20.68%; }
   .coffee   { left: 73.96%; top: 8.42%;  width: 26.04%; }
 
   .pages { width: 100%; }                             /* The line under CV/Resume goes the full width. */

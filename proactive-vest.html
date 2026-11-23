@@ -81,6 +81,8 @@ a{color:#f4f2e6;text-decoration:none}a:hover{color:#a5b84e}
     /* On phones the dotted leader and the page number are hidden, so the chapter title has room. */
     .narrow .chapter-head > span:nth-child(2) { flex: 1 1 auto !important; min-width: 0; }
     .narrow .fixed-fig { flex: none; }
+    /* Keeps the award badge pinned in the bottom-left corner of the vest photo on phones (the rule above would otherwise drop it into the page flow). */
+    .narrow .case img.award-badge.award-badge[style][class][src] { position: absolute !important; width: 56px !important; height: 56px !important; bottom: auto !important; top: calc(min(430px, 100vw - 36px) * 0.805 - 74px) !important; } /* Bottom-left corner of the vest photo: the photo's height (its width x 0.805) minus the badge and an 18px gap. */
   </style>
 </head>
 <body>
@@ -89,9 +91,9 @@ a{color:#f4f2e6;text-decoration:none}a:hover{color:#a5b84e}
 <div class="sheet" style="position:relative;width:1440px;min-height:7700px;background:#394200;color:#f4f2e6;font-family:'EB Garamond',Georgia,serif;font-size:40px;line-height:48px">
 <a class="chrome" href="index.html" style="position:absolute;left:18px;top:17px;color:#e6e4d6">Varsha Gartaula</a>
 <div class="chrome" style="position:absolute;left:18px;top:474px">
-<a href="proactive-vest.html" aria-current="page" style="display:block;color:#a5b84e"><span style="font-size:16px;vertical-align:top;position:relative;top:6px;margin-right:4px">(1)</span>Proactive Vest</a>
+<a href="proactive-vest.html" aria-current="page" style="display:block;color:#a5b84e"><span style="font-size:16px;vertical-align:top;position:relative;top:6px;margin-right:4px">(1)</span>ProActive Vest</a>
 <a href="redesign.html" style="display:block"><span style="font-size:16px;vertical-align:top;position:relative;top:6px;margin-right:4px">(2)</span>When is Redesign Necessary?</a>
-<a href="portals.html" style="display:block"><span style="font-size:16px;vertical-align:top;position:relative;top:6px;margin-right:4px">(3)</span>University portals/other?</a>
+<a href="portals.html" style="display:block"><span style="font-size:16px;vertical-align:top;position:relative;top:6px;margin-right:4px">(3)</span>Mapping Courses to Careers</a>
 <div style="height:47px"></div>
 <a href="play.html" style="display:block">Play</a>
 <a href="Varsha-Gartaula-CV.pdf" target="_blank" rel="noopener" style="display:block">CV/Resume</a>
@@ -101,13 +103,13 @@ a{color:#f4f2e6;text-decoration:none}a:hover{color:#a5b84e}
 <div class="case" style="margin-left:534px;width:890px;padding:22px 0 120px;font-family:Helvetica,'Helvetica Neue',Arial,sans-serif;font-size:12px;line-height:16px;color:#cfcdbd">
 
 <div style="display:grid;grid-template-columns:repeat(6,minmax(0,1fr));column-gap:16px">
-<div style="grid-column:1/4">Healthcare design case study · 5 chapters</div><div style="grid-column:4/7;text-align:right">2025–present</div>
+<div style="grid-column:1/4"><span style="display: inline-block; padding: 5px 11px; border-radius: 999px; background: rgba(244, 242, 230, 0.92); color: rgb(57, 66, 0)">Healthcare design</span></div><div style="grid-column:4/7;text-align:right">2025–present</div>
 <div class="serif" style="grid-column:1/7;margin-top:16px;font-size:64px;line-height:72px">ProActive</div>
 <div class="serif" style="grid-column:1/7;margin-top:10px;font-size:24px;line-height:32px;color:#cfcdbd">The companion app for a self-inflating vest that eases sensory overload</div>
 </div>
 <div style="position:relative;height:520px;overflow:hidden;background:#e4e1cc;margin-top:32px">
 <img src="images/proactive/vest-worn.jpg" alt="A person zipping up the ProActive vest prototype" style="position:absolute;left:0;top:0;width:430px;height:520px;object-fit:cover;object-position:46% 50%">
-<div style="position:absolute;left:18px;bottom:18px;padding:5px 11px;border-radius:999px;background:rgba(244,242,230,.92);font-family:Helvetica,'Helvetica Neue',Arial,sans-serif;font-size:12px;line-height:16px;color:#394200">ProActive vest, 2026 prototype</div>
+<img class="award-badge" src="images/proactive/dyson-award.png" alt="The James Dyson Award, won by the ProActive project" title="The James Dyson Award" style="position:absolute;left:18px;bottom:18px;width:68px;height:68px;display:block;box-shadow:0 6px 16px rgba(0,0,0,.25)">
 <div style="position:absolute;left:470px;top:42px;display:flex;gap:30px">
 <div><div style="display:flex;align-items:center;gap:7px;font-family:Helvetica,'Helvetica Neue',Arial,sans-serif;font-size:12px;line-height:16px;color:#394200"><span style="width:7px;height:7px;border-radius:50%;background:#8a8c72"></span>Vest off</div><div style="margin-top:12px"><div style="width:180px;overflow:hidden;border-radius:20px;background:#ffffff;box-shadow:0 0 0 1px rgba(20,24,0,.10), 0 18px 40px rgba(20,24,0,.22);"><img src="images/proactive/dashboard-vest-off.png" alt="Dashboard with the vest inactive and an Activate Vest button" style="display:block;width:100%"></div></div></div>
 <div><div style="display:flex;align-items:center;gap:7px;font-family:Helvetica,'Helvetica Neue',Arial,sans-serif;font-size:12px;line-height:16px;color:#394200"><span style="width:7px;height:7px;border-radius:50%;background:#107659"></span>Vest on</div><div style="margin-top:12px"><div style="width:180px;overflow:hidden;border-radius:20px;background:#ffffff;box-shadow:0 0 0 1px rgba(20,24,0,.10), 0 18px 40px rgba(20,24,0,.22);"><img src="images/proactive/dashboard-vest-on.png" alt="Dashboard with the vest active and a Deactivate Vest button" style="display:block;width:100%"></div></div></div>
@@ -124,7 +126,7 @@ a{color:#f4f2e6;text-decoration:none}a:hover{color:#a5b84e}
 </div>
 <div style="grid-column:1/7;margin-top:32px;border-top:1px solid rgba(244,242,230,.35)"></div>
 <div style="grid-column:1;margin-top:16px;padding-top:5px">Overview</div>
-<div class="body" style="grid-column:2/6;margin-top:16px">ProActive is a reusable, self-inflating vest for people with autism and sensory sensitivities. I designed the app that pairs with it, end to end: I turned the research team's findings into features, then designed the flows, the screens and the colour system, so wearers and caregivers can see what the vest senses, control it, and learn from each episode.</div>
+<div class="body" style="grid-column:2/6;margin-top:16px">ProActive is a reusable, self-inflating vest for people with autism and sensory sensitivities. I designed the app that pairs with it. I turned the research team's findings into features, then designed the flows, the screens and the colour system, so wearers and caregivers can see what the vest senses, control it, and learn from each episode all while following Web Content Accessibility Guidelines (WCAG).</div>
 
 <div style="grid-column:1/7;margin-top:48px;border-top:1px solid rgba(244,242,230,.35)"></div>
 <div style="grid-column:1;margin-top:16px;padding-top:5px">How the vest works</div>
@@ -238,7 +240,6 @@ a{color:#f4f2e6;text-decoration:none}a:hover{color:#a5b84e}
 
 </div>
 </div>
-
 <script>
   // Makes each chapter title open or close the chapter below it: − means open, + means closed.
   document.querySelectorAll('.chapter-head').forEach(function (head) {

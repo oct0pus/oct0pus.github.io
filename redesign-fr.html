@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<!-- FRENCH COPY of redesign.html. The layout and pictures are the same; only the words are translated.
+     If you change the English page, change this one to match (or ask Claude to re-sync both). -->
+<!-- A project page, built from its "(edit me)" design on the canvas.
+     On a computer (1024px wide and up) it opens INSIDE the homepage (index.html), on the right side of the screen.
+     If someone opens this file directly on a computer, it sends them to the homepage with this project open.
+     On tablets and phones it shows as its own page, with your name at the top linking home. -->
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <!-- Lets symbols like – and “ ” show correctly. -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Makes the page fit phone and tablet screens. The layout adapts (see "RESPONSIVE" in the styles below). -->
+  <title>Quand faut-il tout repenser ? · Varsha Gartaula</title>
+  <!-- The text on the browser tab. -->
+  <script>
+    // Runs before the page appears.
+    if (/[?&]embed/.test(location.search)) {
+      // "?embed" in the address means the homepage is showing this page in its right-hand panel...
+      document.documentElement.classList.add("embed");
+      // ...so we hide the name and menu (the homepage already shows them).
+    } else if (window.innerWidth >= 1024 && window.top === window) {
+      // Opened directly on a computer: go to the homepage instead, with this project open.
+      location.replace("index.html?lang=fr#redesign");
+    }
+  </script>
+  <style>
+    /* Fonts: EB Garamond, loaded from your fonts/ folder. */
+
+@font-face{font-family:'EB Garamond';src:url(fonts/EBGaramond-Regular.woff2) format('woff2');font-weight:400;font-style:normal;font-display:block}
+@font-face{font-family:'EB Garamond';src:url(fonts/EBGaramond-Medium.woff2) format('woff2');font-weight:500 800;font-style:normal;font-display:block}
+
+a{color:#f4f2e6;text-decoration:none}a:hover{color:#a5b84e}
+.body{font-family:Helvetica,"Helvetica Neue",Arial,sans-serif;color:#f4f2e6;font-size:16px;line-height:24px}
+.serif{font-family:"EB Garamond",Georgia,serif;color:#f4f2e6}
+.ph{background-color:#2d2d2d;background-image:linear-gradient(to right,rgba(255,255,255,.08) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,.08) 1px,transparent 1px);background-size:25% 33.33%}
+
+    body { margin: 0; background: #394200; }
+    /* No white gap around the page; olive behind everything. */
+    .chapter-head { cursor: pointer; }
+    /* Chapter titles show a hand cursor, because clicking them opens or closes the chapter. */
+    .chapter-head:hover .toggle, .chapter-head:focus-visible .toggle { color: #a5b84e; }
+    /* The − / + turns green on hover. */
+    .chapter-head:focus-visible { outline: 2px solid #a5b84e; outline-offset: 2px; }
+    /* A green outline for keyboard users. */
+    .chapter-body[hidden] { display: none; }
+    /* A closed chapter is hidden. */
+
+    /* Inside the homepage panel: hide the left column and let the case study start at the left edge. */
+    .embed .chrome { display: none; }
+    .embed .sheet { width: auto !important; min-height: 0 !important; }
+    .embed .case { margin-left: 18px !important; padding-top: var(--top, 22px) !important; }
+    /* 18px from the line, like the homepage's 18px margin. The top padding is set by the homepage so the first line sits level with your name. */
+
+    /* ---------- RESPONSIVE (added so the page works on any screen) ----------
+       The case study is designed 890px wide.
+       - Wide enough (640px and up): the design is shown as drawn, scaled down slightly if needed to fit.
+       - Phones (under 640px): the page gets the class "narrow" and everything stacks into one column. */
+
+    /* Opened on its own (tablets and phones): your name sits at the top as a link home; the side menu and lines are hidden. */
+    html:not(.embed) .chrome { display: none; }
+    html:not(.embed) a.chrome { display: block !important; position: static !important; padding: 17px 18px 0; font-size: 32px; line-height: 40px; }
+    html:not(.embed) .sheet, .narrow .sheet { width: auto !important; min-height: 0 !important; }
+    html:not(.embed) .case { margin: 0 auto !important; padding-left: 18px; padding-right: 18px; box-sizing: content-box; }
+
+    /* Phones: one column. "fixed-fig" marks the small screen mockups, which keep their own layout and are scaled to fit instead. */
+    .narrow .case { margin: 0 !important; width: auto !important; padding: 24px 18px 64px !important; box-sizing: border-box; }
+    .narrow .case [style*="grid-template-columns"]:not(.fixed-fig *) { grid-template-columns: minmax(0, 1fr) !important; row-gap: 16px; }
+    .narrow .case [style*="grid-template-columns:repeat(4"]:not(.fixed-fig *) { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; column-gap: 16px !important; }
+    .narrow .case [style*="grid-column"]:not(.fixed-fig *) { grid-column: auto !important; }
+    .narrow .case [style*="display:flex"]:not(.fixed-fig *):not(.chapter-head) { flex-wrap: wrap; }
+    .narrow .case [style*="width:"]:not(.fixed-fig):not(.fixed-fig *) { max-width: 100%; }
+    .narrow .case img:not(.fixed-fig *) { max-width: 100%; height: auto !important; }
+    .narrow .case [style*="position:absolute"]:not(.fixed-fig *):not([style*="clip:rect"]) { position: static !important; }
+    .narrow .case [style*="height:"]:not(img):not(.fixed-fig):not(.fixed-fig *) { height: auto !important; }
+    .narrow .case [style*="font-size:64px"]:not(.fixed-fig *) { font-size: 40px !important; line-height: 46px !important; }
+    .narrow .case [style*="font-size:40px"]:not(.fixed-fig *) { font-size: 28px !important; line-height: 34px !important; }
+    .narrow .case [style*="font-size:32px"]:not(.fixed-fig *) { font-size: 24px !important; line-height: 30px !important; }
+    .narrow .chapter-body { padding: 8px 0 48px 0 !important; }
+    .narrow .chapter-head > span:first-child { width: 32px !important; font-size: 18px !important; }
+    .narrow .chapter-head > span[aria-hidden="true"]:not(.toggle) { display: none; }
+    .narrow .chapter-head > span:nth-child(4) { display: none; }
+    /* On phones the dotted leader and the page number are hidden, so the chapter title has room. */
+    .narrow .chapter-head > span:nth-child(2) { flex: 1 1 auto !important; min-width: 0; }
+    .narrow .fixed-fig { flex: none; }
+  </style>
+</head>
+<body>
+<!-- Everything below is the design. The name and menu have class "chrome"; the case study has class "case".
+     Each chapter has a title row (class "chapter-head") followed by its content (class "chapter-body"). -->
+<div class="sheet" style="position:relative;width:1440px;min-height:7450px;background:#394200;color:#f4f2e6;font-family:'EB Garamond',Georgia,serif;font-size:40px;line-height:48px">
+<a class="chrome" href="index.html" style="position:absolute;left:18px;top:17px;color:#e6e4d6">Varsha Gartaula</a>
+<div class="chrome" style="position:absolute;left:18px;top:474px">
+<a href="proactive-vest-fr.html" style="display:block"><span style="font-size:16px;vertical-align:top;position:relative;top:6px;margin-right:4px">(1)</span>Gilet ProActive</a>
+<a href="redesign-fr.html" aria-current="page" style="display:block;color:#a5b84e"><span style="font-size:16px;vertical-align:top;position:relative;top:6px;margin-right:4px">(2)</span>Quand faut-il tout repenser ?</a>
+<a href="portals-fr.html" style="display:block"><span style="font-size:16px;vertical-align:top;position:relative;top:6px;margin-right:4px">(3)</span>Des cours aux carrières</a>
+<div style="height:47px"></div>
+<a href="play.html" style="display:block">Play</a>
+<a href="Varsha-Gartaula-CV.pdf" target="_blank" rel="noopener" style="display:block">CV</a>
+</div>
+<div class="chrome" style="position:absolute;left:18px;top:770px;width:484px;border-top:1px solid rgba(244,242,230,.35)"></div>
+<div class="chrome" style="position:absolute;left:518px;top:16px;bottom:0;border-left:1px solid rgba(244,242,230,.35)"></div>
+<div class="case" style="margin-left:534px;width:890px;padding:22px 0 120px;font-family:Helvetica,'Helvetica Neue',Arial,sans-serif;font-size:12px;line-height:16px;color:#cfcdbd">
+
+<div style="display:grid;grid-template-columns:repeat(6,minmax(0,1fr));column-gap:16px">
+<div style="grid-column:1/4"><span style="display: inline-block; padding: 5px 11px; border-radius: 999px; background: rgba(244, 242, 230, 0.92); color: rgb(57, 66, 0)">Design de services</span></div><div style="grid-column:4/7;text-align:right">2024</div>
+<div class="serif" style="grid-column:1/7;margin-top:16px;font-size:64px;line-height:72px">Quand faut-il tout repenser ?</div>
+<div class="serif" style="grid-column:1/7;margin-top:10px;font-size:24px;line-height:32px;color:#cfcdbd">Améliorer FreshKDS, le système d’affichage des commandes d’un café très fréquenté</div>
+</div>
+
+<div style="margin-top:32px;background:#e4e1cc;padding:40px 32px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:24px">
+<div style="position:relative;overflow:hidden;border-radius:12px;box-shadow:0 0 0 1px rgba(20,24,0,.10), 0 18px 40px rgba(20,24,0,.22)"><img src="images/redesign/original.jpg" alt="The original FreshKDS order screen" style="display:block;width:100%"><div style="position:absolute;left:52px;bottom:14px;padding:5px 11px;border-radius:999px;background:rgba(244,242,230,.92);font-family:Helvetica,'Helvetica Neue',Arial,sans-serif;font-size:12px;line-height:16px;color:#394200">Original</div></div>
+<div style="position:relative;overflow:hidden;border-radius:12px;box-shadow:0 0 0 1px rgba(20,24,0,.10), 0 18px 40px rgba(20,24,0,.22)"><img src="images/redesign/updated.jpg" alt="The updated FreshKDS order screen" style="display:block;width:100%"><div style="position:absolute;left:52px;bottom:14px;padding:5px 11px;border-radius:999px;background:rgba(244,242,230,.92);font-family:Helvetica,'Helvetica Neue',Arial,sans-serif;font-size:12px;line-height:16px;color:#394200">Modifié</div></div>
+</div>
+<div style="margin-top:8px">Image I · L’écran de commandes du barista, avant et après. J’ai gardé la mise en page et modifié uniquement ce qui ralentissait l’équipe.</div>
+
+<div style="display:grid;grid-template-columns:repeat(6,minmax(0,1fr));column-gap:16px;margin-top:32px">
+<div style="grid-column:1/7;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));column-gap:16px">
+<div><div>Rôle</div><div class="body" style="margin-top:8px">Designer et barista</div></div>
+<div><div>Période</div><div class="body" style="margin-top:8px">2024</div></div>
+<div><div>Lieu</div><div class="body" style="margin-top:8px">Pilot Coffee Roasters</div><div class="body">Union Station, Toronto</div></div>
+<div><div>Outils</div><div class="body" style="margin-top:8px">Figma</div></div>
+</div>
+<div style="grid-column:1/7;margin-top:32px;border-top:1px solid rgba(244,242,230,.35)"></div>
+<div style="grid-column:1/7;margin-top:16px">La question</div>
+<blockquote class="serif" style="grid-column:1/6;margin:16px 0 0;font-size:32px;line-height:40px;color:#f4f2e6">« Comment améliorer une expérience opérationnelle existante sans y ajouter de complexité inutile ? »</blockquote>
+<div style="grid-column:1/7;margin-top:32px;border-top:1px solid rgba(244,242,230,.35)"></div>
+<div style="grid-column:1;margin-top:16px;padding-top:5px">Aperçu</div>
+<div class="body" style="grid-column:2/6;margin-top:16px">Barista au café Pilot Coffee Roasters d’Union Station, j’utilisais FreshKDS tous les jours : c’est une application iPad qui indique aux baristas quelles boissons préparer. Pilot est une chaîne de cafés de Toronto, avec des cafés et des torréfactions dans toute la ville, et chaque adresse a des besoins différents. Le café d’Union Station est le plus fréquenté : il accueille certains jours trois fois plus de clients qu’un café moyen. Pourtant, tous les cafés utilisent la même application.<br><br>Plutôt que de la repenser entièrement, j’ai cherché les quelques endroits où elle ralentissait l’équipe, et je n’ai corrigé que ceux-là, en conservant son parcours, sa mise en page et son identité visuelle. Le projet portait moins sur l’interface que sur l’adaptation du système à un café au rythme soutenu.</div>
+
+<div style="grid-column:1/7;margin-top:48px;border-top:1px solid rgba(244,242,230,.35)"></div>
+<div style="grid-column:1;margin-top:16px;padding-top:5px">Comment les commandes arrivent au bar</div>
+<div class="body" style="grid-column:2/7;margin-top:16px">Les commandes arrivent de trois façons : à la caisse, en commande à emporter via l’application de Pilot, et via des applications de livraison comme SkipTheDishes et DoorDash. Toutes arrivent sur l’iPad du barista. Voici le processus quand tout se passe bien.</div>
+<div style="grid-column:1/7;margin-top:24px"><div><img src="images/redesign/flow.svg" alt="Flowchart of how an order at Pilot Coffee Roasters reaches the barista through FreshKDS" style="display:block;width:100%"><div style="margin-top:10px">Fig. 1 · Trois façons de commander chez Pilot Coffee Roasters : en magasin, via l’application de Pilot et via les applications de livraison. Chaque parcours aboutit au même écran KDS (les cases crème).</div></div></div>
+
+<div style="grid-column:1/7;margin-top:48px;border-top:1px solid rgba(244,242,230,.35)"></div>
+<div style="grid-column:1;margin-top:16px;padding-top:4px">Ce que j’ai changé</div>
+<div style="grid-column:2/7;margin-top:6px"><div class="body" style="max-width:720px"><div style="display:flex;gap:16px;margin-top:10px"><span style="width:28px;flex:none;color:#cfcdbd">01</span><span>Les commandes mobiles apparaissent à l’écran au bon moment, sans minuteur manuel.</span></div><div style="display:flex;gap:16px;margin-top:10px"><span style="width:28px;flex:none;color:#cfcdbd">02</span><span>Les articles en rupture peuvent être remboursés depuis le bar, sans que les clients fassent la queue pour demander.</span></div><div style="display:flex;gap:16px;margin-top:10px"><span style="width:28px;flex:none;color:#cfcdbd">03</span><span>On retrouve les commandes clôturées par nom, par lettre ou par type de commande.</span></div><div style="display:flex;gap:16px;margin-top:10px"><span style="width:28px;flex:none;color:#cfcdbd">04</span><span>Une palette de couleurs simplifiée, et les commentaires de l’équipe distincts de ceux des clients.</span></div></div></div>
+</div>
+
+<div style="margin-top:80px;display:flex;align-items:baseline;justify-content:space-between">
+<div class="serif" style="font-size:64px;line-height:72px;">Sommaire</div>
+<div>Sélectionnez un chapitre pour l’ouvrir ou le fermer</div>
+</div>
+
+<div style="margin-top:32px">
+<div class="chapter-head" tabindex="0" role="button" aria-expanded="true" style="display:flex;align-items:baseline;gap:16px;padding:14px 0;border-top:1px solid rgba(244,242,230,.35)"><span class="serif" style="width:56px;flex:none;font-size:24px;line-height:32px;color:#cfcdbd">I.</span><span class="serif" style="flex:none;font-size:40px;line-height:48px;color:#a5b84e">Problème et objectifs</span><span aria-hidden="true" style="flex:1;min-width:40px;border-bottom:1px dotted rgba(244,242,230,.5);transform:translateY(-8px)"></span><span class="serif" style="flex:none;font-size:24px;line-height:32px;color:#cfcdbd">p. 1</span><span class="toggle" aria-hidden="true" style="flex:none;width:32px;text-align:right;font-size:24px;color:#f4f2e6">−</span></div>
+<div class="chapter-body" style="padding:16px 0 72px 72px">
+<div class="body" style="max-width:640px;margin-top:0px">Union Station est surnommé le café « fast-food » : peu de places assises et un flot continu d’employés de bureau et de voyageurs. L’équipe est souvent épuisée. Avec le temps, elle s’était discrètement adaptée à l’application en inventant des solutions de contournement, si bien qu’une grande partie de la frustration passait inaperçue. Le parcours général de l’application fonctionne bien ; il n’avait simplement pas été pensé pour ce rythme.</div><div style="margin-top:28px">Objectifs</div><div class="body" style="max-width:640px"><div style="display:flex;gap:16px;margin-top:10px"><span style="width:28px;flex:none;color:#cfcdbd">01</span><span>Rendre l’équipe plus rapide au poste espresso et lait. <span style="color:#cfcdbd">Mesure : régler tous les problèmes causés par l’application, ou la plupart.</span></span></div><div style="display:flex;gap:16px;margin-top:10px"><span style="width:28px;flex:none;color:#cfcdbd">02</span><span>Montrer que le design d’origine convient à un café au rythme soutenu sans refonte. <span style="color:#cfcdbd">Mesure : garder le parcours et les éléments de design d’origine ; seulement modifier et ajouter.</span></span></div><div style="display:flex;gap:16px;margin-top:10px"><span style="width:28px;flex:none;color:#cfcdbd">03</span><span>Aider l’équipe à se sentir moins stressée et moins submergée. <span style="color:#cfcdbd">Mesure : une palette de couleurs limitée, un design direct, et moins d’appuis et de balayages.</span></span></div></div>
+</div>
+
+<div class="chapter-head" tabindex="0" role="button" aria-expanded="true" style="display:flex;align-items:baseline;gap:16px;padding:14px 0;border-top:1px solid rgba(244,242,230,.35)"><span class="serif" style="width:56px;flex:none;font-size:24px;line-height:32px;color:#cfcdbd">II.</span><span class="serif" style="flex:none;font-size:40px;line-height:48px;color:#a5b84e">Recherche</span><span aria-hidden="true" style="flex:1;min-width:40px;border-bottom:1px dotted rgba(244,242,230,.5);transform:translateY(-8px)"></span><span class="serif" style="flex:none;font-size:24px;line-height:32px;color:#cfcdbd">p. 2</span><span class="toggle" aria-hidden="true" style="flex:none;width:32px;text-align:right;font-size:24px;color:#f4f2e6">−</span></div>
+<div class="chapter-body" style="padding:16px 0 72px 72px">
+<div class="body" style="max-width:640px;margin-top:0px">Avant ce projet, j’ai noté tout ce qui me frustrait dans l’application en tant que barista, et j’ai observé de façon informelle comment mes collègues l’utilisaient pendant leur service. J’ai noté ce qu’ils disaient en travaillant, mais j’ai choisi de ne pas les interroger au début : lors de projets précédents, l’équipe avait tendance à exagérer les problèmes du café. Souvent, leur comportement montrait qu’ils « comprenaient » un problème dont ils n’avaient pas conscience.</div><div style="margin-top:28px">Méthode</div><div class="body" style="max-width:640px"><div style="display:flex;gap:16px;margin-top:10px"><span style="width:28px;flex:none;color:#cfcdbd">01</span><span>Repérer les problèmes ; recueillir et observer les interactions de l’équipe</span></div><div style="display:flex;gap:16px;margin-top:10px"><span style="width:28px;flex:none;color:#cfcdbd">02</span><span>Faire des wireframes du système actuel et recréer les parties utiles dans Figma</span></div><div style="display:flex;gap:16px;margin-top:10px"><span style="width:28px;flex:none;color:#cfcdbd">03</span><span>Imaginer des solutions avec des collègues et des pairs</span></div><div style="display:flex;gap:16px;margin-top:10px"><span style="width:28px;flex:none;color:#cfcdbd">04</span><span>Prototypage improvisé</span></div><div style="display:flex;gap:16px;margin-top:10px"><span style="width:28px;flex:none;color:#cfcdbd">05</span><span>Concevoir les solutions dans Figma et animer chaque écran</span></div></div><div style="margin-top:40px">Contraintes</div><div class="body" style="max-width:640px"><div style="display:flex;gap:16px;margin-top:10px"><span style="width:28px;flex:none;color:#cfcdbd">01</span><span>Je ne pouvais pas tester de changements dans l’application réelle, ce qui rendait difficiles les choix de taille des boutons, de hiérarchie et de nouvelles fonctionnalités.</span></div><div style="display:flex;gap:16px;margin-top:10px"><span style="width:28px;flex:none;color:#cfcdbd">02</span><span>L’équipe disait qu’elle ne saurait si une solution fonctionnait qu’en l’essayant pendant un coup de feu.</span></div><div style="display:flex;gap:16px;margin-top:10px"><span style="width:28px;flex:none;color:#cfcdbd">03</span><span>J’étais la seule designer, sans aucun retour de l’entreprise elle-même.</span></div><div style="display:flex;gap:16px;margin-top:10px"><span style="width:28px;flex:none;color:#cfcdbd">04</span><span>Je me suis surtout appuyée sur ma propre expérience et sur un petit groupe de cinq personnes.</span></div></div>
+</div>
+
+<div class="chapter-head" tabindex="0" role="button" aria-expanded="true" style="display:flex;align-items:baseline;gap:16px;padding:14px 0;border-top:1px solid rgba(244,242,230,.35)"><span class="serif" style="width:56px;flex:none;font-size:24px;line-height:32px;color:#cfcdbd">III.</span><span class="serif" style="flex:none;font-size:40px;line-height:48px;color:#a5b84e">Wireframes et prototypage</span><span aria-hidden="true" style="flex:1;min-width:40px;border-bottom:1px dotted rgba(244,242,230,.5);transform:translateY(-8px)"></span><span class="serif" style="flex:none;font-size:24px;line-height:32px;color:#cfcdbd">p. 3</span><span class="toggle" aria-hidden="true" style="flex:none;width:32px;text-align:right;font-size:24px;color:#f4f2e6">−</span></div>
+<div class="chapter-body" style="padding:16px 0 72px 72px">
+<div class="body" style="max-width:640px;margin-top:0px">J’ai dessiné le système actuel à côté de plusieurs solutions possibles, puis recréé les écrans utiles dans Figma.</div><div style="margin-top:32px;max-width:640px"><div><img src="images/redesign/wireframes.jpg" alt="Hand-drawn wireframes of the current app and possible solutions" style="display:block;width:100%"><div style="margin-top:10px">Fig. 2 · Wireframes de l’application d’origine et de solutions possibles.</div></div></div><div class="body" style="margin-top:56px;max-width:640px"><div class="serif" style="font-size:32px;line-height:40px;">Le papier ne fonctionnait pas derrière le bar</div><div style="margin-top:12px">Une professeure de design de services m’a suggéré un prototype papier, mais le bar est animé et exigu, et il gênait l’équipe. J’ai plutôt suivi mes collègues et mimé chaque solution à l’avance, pour voir si elle raccourcissait ou supprimait une étape. Les solutions se sont révélées être des versions plus simples des solutions de contournement que tout le monde utilisait déjà.</div></div>
+</div>
+
+<div class="chapter-head" tabindex="0" role="button" aria-expanded="true" style="display:flex;align-items:baseline;gap:16px;padding:14px 0;border-top:1px solid rgba(244,242,230,.35)"><span class="serif" style="width:56px;flex:none;font-size:24px;line-height:32px;color:#cfcdbd">IV.</span><span class="serif" style="flex:none;font-size:40px;line-height:48px;color:#a5b84e">Les solutions</span><span aria-hidden="true" style="flex:1;min-width:40px;border-bottom:1px dotted rgba(244,242,230,.5);transform:translateY(-8px)"></span><span class="serif" style="flex:none;font-size:24px;line-height:32px;color:#cfcdbd">p. 4</span><span class="toggle" aria-hidden="true" style="flex:none;width:32px;text-align:right;font-size:24px;color:#f4f2e6">−</span></div>
+<div class="chapter-body" style="padding:16px 0 72px 72px">
+<div class="body" style="max-width:640px;margin-top:0px">Chaque changement répond à un problème que j’ai constaté pendant mon service. Tous les nouveaux éléments suivent le style existant de FreshKDS.</div><div class="body" style="margin-top:56px;max-width:640px"><div class="serif" style="font-size:32px;line-height:40px;">Les commandes mobiles, à l’heure</div><div style="margin-top:12px">Les précommandes passées dans l’application arrivent en avance, alors l’équipe devait mettre chacune en attente et régler un minuteur à la main. J’ai ajouté un système de notification : une commande mobile apparaît dans sa propre zone en bas de l’écran au moment voulu, sans minuteur manuel.</div></div><div style="margin-top:32px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:28px;align-items:start"><div><div style="margin-bottom:10px;color:#f4f2e6">Avant</div><div style="overflow:hidden;border-radius:12px;background:#ffffff;box-shadow:0 0 0 1px rgba(20,24,0,.10), 0 18px 40px rgba(20,24,0,.22)"><img src="images/redesign/mobile-before.gif" alt="Animation: putting a mobile order on hold and setting a timer by hand" style="display:block;width:100%"></div><div style="margin-top:10px">Fig. 3 · Quatre appuis pour mettre une commande mobile en attente et régler un minuteur.</div></div><div><div style="margin-bottom:10px;color:#f4f2e6">Après</div><div style="overflow:hidden;border-radius:12px;background:#ffffff;box-shadow:0 0 0 1px rgba(20,24,0,.10), 0 18px 40px rgba(20,24,0,.22)"><img src="images/redesign/mobile-after.gif" alt="Animation: mobile orders waiting at the bottom and moving up when due" style="display:block;width:100%"></div><div style="margin-top:10px">Fig. 4 · Aucun appui : les commandes dues remontent d’elles-mêmes.</div></div></div><div class="body" style="margin-top:56px;max-width:640px"><div class="serif" style="font-size:32px;line-height:40px;">Rupture de stock, remboursée depuis le bar</div><div style="margin-top:12px">Quand un article commandé via l’application était en rupture, les clients devaient entrer, demander, et attendre que la file diminue pour être remboursés. J’ai ajouté une alerte qui permet au barista de rembourser l’article d’un seul appui et prévient le client, qui n’a plus à faire la queue.</div></div><div style="margin-top:32px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:28px;align-items:start"><div><div style="margin-bottom:10px;color:#f4f2e6">Après</div><div style="overflow:hidden;border-radius:12px;background:#ffffff;box-shadow:0 0 0 1px rgba(20,24,0,.10), 0 18px 40px rgba(20,24,0,.22)"><img src="images/redesign/soldout.gif" alt="Animation: refunding a sold-out scone from the order screen" style="display:block;width:100%"></div><div style="margin-top:10px">Fig. 5 · Trois appuis pour rembourser un article en rupture depuis le bar.</div></div><div></div></div><div class="body" style="margin-top:56px;max-width:640px"><div class="serif" style="font-size:32px;line-height:40px;">Retrouver une commande clôturée</div><div style="margin-top:12px">Pour rembourser ou modifier une commande clôturée, l’équipe devait ouvrir chaque onglet un par un, car seules les commandes de l’application affichaient un nom. J’ai ajouté une barre de recherche, des boutons pour les premières lettres les plus fréquentes parmi les noms du jour, et un interrupteur pour n’afficher que les commandes mobiles.</div></div><div style="margin-top:32px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:28px;align-items:start"><div><div style="margin-bottom:10px;color:#f4f2e6">Avant</div><div style="overflow:hidden;border-radius:12px;background:#ffffff;box-shadow:0 0 0 1px rgba(20,24,0,.10), 0 18px 40px rgba(20,24,0,.22)"><img src="images/redesign/recall-before.gif" alt="Animation: opening each closed order one by one" style="display:block;width:100%"></div><div style="margin-top:10px">Fig. 6 · Toutes les commandes clôturées se ressemblent, alors l’équipe les ouvre une par une.</div></div><div><div style="margin-bottom:10px;color:#f4f2e6">Après</div><div style="overflow:hidden;border-radius:12px;background:#ffffff;box-shadow:0 0 0 1px rgba(20,24,0,.10), 0 18px 40px rgba(20,24,0,.22)"><img src="images/redesign/recall-after.gif" alt="Animation: finding an order by letter and mobile orders, then refunding part of it" style="display:block;width:100%"></div><div style="margin-top:10px">Fig. 7 · Filtrer par première lettre ou par commandes mobiles, puis rembourser un article.</div></div></div><div class="body" style="margin-top:56px;max-width:640px"><div class="serif" style="font-size:32px;line-height:40px;">Des couleurs plus calmes</div><div style="margin-top:12px">L’écran était surchargé, ses couleurs n’avaient pas de sens clair, et les commentaires privés de l’équipe et des clients se ressemblaient, même sur les tickets. J’ai gardé la mise en page, simplifié la palette et donné des couleurs différentes aux commentaires de l’équipe et des clients.</div></div><div style="margin-top:24px"><div><img src="images/redesign/colour-versions.jpg" alt="Original and updated order cards in each colour state" style="display:block;width:100%"><div style="margin-top:10px">Fig. 8 · Cartes de commande. À gauche : les quatre cartes d’origine. À droite : les nouvelles cartes que j’ai conçues, pour les commandes classiques, mobiles, Craver et SkipTheDishes.</div></div></div>
+</div>
+
+<div class="chapter-head" tabindex="0" role="button" aria-expanded="true" style="display:flex;align-items:baseline;gap:16px;padding:14px 0;border-top:1px solid rgba(244,242,230,.35)"><span class="serif" style="width:56px;flex:none;font-size:24px;line-height:32px;color:#cfcdbd">V.</span><span class="serif" style="flex:none;font-size:40px;line-height:48px;color:#a5b84e">Bilan</span><span aria-hidden="true" style="flex:1;min-width:40px;border-bottom:1px dotted rgba(244,242,230,.5);transform:translateY(-8px)"></span><span class="serif" style="flex:none;font-size:24px;line-height:32px;color:#cfcdbd">p. 5</span><span class="toggle" aria-hidden="true" style="flex:none;width:32px;text-align:right;font-size:24px;color:#f4f2e6">−</span></div>
+<div class="chapter-body" style="padding:16px 0 72px 72px">
+<div class="body" style="max-width:640px;margin-top:0px">Avant de commencer, je me suis demandé si tout le système devait être repensé. Ce n’était pas le cas : FreshKDS fonctionne bien dans les cafés plus calmes, mais pourrait être mieux adapté aux cafés au rythme soutenu, afin de réduire le stress de l’équipe. Repérer ce stress, surtout quand les gens ont mis en place des solutions de contournement sans s’en rendre compte, s’est révélé être la clé de tout le projet.</div><div class="body" style="max-width:640px;margin-top:16px">Grâce à ce projet, j’ai pratiqué l’observation des utilisateurs, la détection des failles d’un système, le travail sous de fortes contraintes, et le respect de l’identité d’une marque tout en l’enrichissant. J’ai contacté FreshKDS et mes responsables chez Pilot Coffee Roasters, mais je n’ai pas obtenu assez de retours pour modifier le système réel. Idéalement, je testerais ces solutions au café pendant un coup de feu, et j’observerais comment d’autres cafés très fréquentés gèrent les mêmes problèmes.</div>
+</div>
+
+<div style="border-top:1px solid rgba(244,242,230,.35)"></div>
+</div>
+
+<div style="margin-top:96px;display:flex;gap:16px;align-items:baseline">
+<div style="width:120px">Projet suivant</div><a href="portals-fr.html" class="serif" style="font-size:40px;line-height:48px">Des cours aux carrières</a>
+</div>
+
+</div>
+</div>
+<script>
+  // Makes each chapter title open or close the chapter below it: − means open, + means closed.
+  document.querySelectorAll('.chapter-head').forEach(function (head) {
+    var content = head.nextElementSibling;
+    // The chapter's content is the block right after its title.
+    var sign = head.querySelector('.toggle');
+    // The − / + on the right.
+    function toggle() {
+      var open = content.hidden;
+      content.hidden = !open;
+      // Show or hide the content.
+      sign.textContent = open ? '−' : '+';
+      head.setAttribute('aria-expanded', open);
+      // Tells screen readers whether it's open.
+    }
+    head.addEventListener('click', toggle);
+    head.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); } });
+    // Enter or Space toggles it for keyboard users.
+  });
+
+  function fit() {
+    // Runs when the page loads and whenever the window changes size.
+    var root = document.documentElement;
+    var w = window.innerWidth;
+    var caseEl = document.querySelector('.case');
+    var narrow = w < 640;
+    root.classList.toggle('narrow', narrow);
+    // Phones get the one-column layout.
+    var side = root.classList.contains('embed') ? 18 : 36;
+    caseEl.style.zoom = narrow ? '' : Math.min(1, (w - side - 18) / 890);
+    // Wider screens see the design as drawn, scaled down a little if the window is narrower than it.
+    document.querySelectorAll('.fixed-fig').forEach(function (fig) {
+      // The small screen mockups keep their layout and shrink to fit the column on phones.
+      var figW = parseFloat(fig.style.width) || fig.offsetWidth;
+      var par = fig.parentElement, cs = getComputedStyle(par);
+      var avail = Math.min(caseEl.clientWidth - 36, par.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight));
+      // The room available: the column, minus any padding around the mockup.
+      fig.style.zoom = narrow ? Math.min(1, avail / figW) : '';
+    });
+    var top = parseFloat((location.search.match(/[?&]top=([0-9.]+)/) || [])[1]);
+    // Inside the homepage: how far down your name starts, so the first line can sit level with it.
+    var z = parseFloat(caseEl.style.zoom) || 1;
+    if (top && !narrow) root.style.setProperty('--top', Math.max(0, top / z - 4.6) + 'px');
+  }
+  document.querySelectorAll('.case [style*="transform:scale"]').forEach(function (inner) {
+    // Marks each screen mockup's frame as a "fixed-fig" (see the CSS above).
+    inner.parentElement.classList.add('fixed-fig');
+  });
+  fit();
+  window.addEventListener('resize', fit);
+
+  if (document.documentElement.classList.contains('embed')) {
+    // Inside the homepage panel:
+    document.addEventListener('click', function (e) {
+      // When a link to another of your pages is clicked (like "Next project"), ask the homepage to open it.
+      var a = e.target.closest('a');
+      if (!a || a.target === '_blank') return;
+      // Links that open a new tab (Vayence, your CV) work as normal.
+      var href = a.getAttribute('href');
+      if (!href || href.charAt(0) === '#') return;
+      e.preventDefault();
+      window.parent.postMessage({ go: href }, '*');
+    });
+  }
+</script>
+</body>
+</html>
