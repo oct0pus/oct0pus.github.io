@@ -1,0 +1,1506 @@
+<!DOCTYPE html>
+<!-- Tells the browser this file is a modern HTML5 page. -->
+<html lang="en">
+<!-- Starts the page and says its language is English (helps screen readers and search engines). -->
+
+<head>
+  <!-- The <head> holds information about the page that visitors don't see directly. -->
+
+  <meta charset="utf-8">
+  <!-- Uses the UTF-8 character set, so symbols like £, °, → and “ ” display correctly. -->
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Makes the page fit the width of phones and tablets instead of showing a zoomed-out desktop page. -->
+
+  <title>ProActive · Varsha Gartaula</title>
+  <!-- The text shown on the browser tab and in search results. -->
+
+  <meta name="description" content="Case study: designing the companion app for ProActive, a self-inflating vest that eases sensory overload.">
+  <!-- A one-sentence summary that search engines and link previews can show. -->
+
+  <style>
+    /* Everything inside this style block is CSS: the rules that control how the page looks. */
+
+    /* ---------- 1. Fonts ---------- */
+
+    @font-face {
+      /* Loads a font file that lives in your own site folder, so it doesn't depend on Google Fonts. */
+      font-family: "EB Garamond";
+      /* The name we'll use to refer to this font later in the CSS. */
+      src: url("fonts/EBGaramond-Regular.woff2") format("woff2");
+      /* Where the font file is, relative to this HTML file. */
+      font-weight: 400;
+      /* This file is the regular (normal) weight. */
+      font-style: normal;
+      /* This file is upright, not italic. */
+      font-display: swap;
+      /* Shows a backup font straight away, then swaps to Garamond once it has loaded. */
+    }
+
+    @font-face {
+      /* A second file for the same family: the heavier "medium" weight. */
+      font-family: "EB Garamond";
+      /* Same family name, so the browser knows it's the same font. */
+      src: url("fonts/EBGaramond-Medium.woff2") format("woff2");
+      /* Where the medium-weight file is. */
+      font-weight: 500;
+      /* Used whenever text asks for weight 500. */
+      font-style: normal;
+      /* Upright, not italic. */
+      font-display: swap;
+      /* Same loading behaviour as above. */
+    }
+
+    /* ---------- 2. Design tokens (reusable values) ---------- */
+
+    :root {
+      /* :root means "the whole page". Variables set here can be used anywhere below. */
+      --olive: #394200;
+      /* The page background colour. */
+      --cream: #f4f2e6;
+      /* The main text colour. */
+      --muted: #cfcdbd;
+      /* A softer cream for labels, captions and page numbers. */
+      --accent: #a5b84e;
+      /* The green used for chapter titles, the current page in the menu and link hovers. */
+      --rule: rgba(244, 242, 230, 0.35);
+      /* The colour of the thin divider lines (cream at 35% opacity). */
+      --serif: "EB Garamond", Georgia, serif;
+      /* The serif font stack: Garamond first, Georgia if Garamond fails to load. */
+      --sans: Helvetica, "Helvetica Neue", Arial, sans-serif;
+      /* The sans-serif stack: Helvetica first, then Arial on computers without Helvetica. */
+      --shadow: 0 0 0 1px rgba(20, 24, 0, 0.1), 0 18px 40px rgba(20, 24, 0, 0.22);
+      /* The soft shadow behind app screens: a faint outline plus a blurred drop shadow. */
+    }
+
+    /* ---------- 3. Basic page setup ---------- */
+
+    *, *::before, *::after {
+      /* Applies to every element on the page. */
+      box-sizing: border-box;
+      /* Makes widths include padding and borders, so layouts add up the way you'd expect. */
+    }
+
+    body {
+      /* The <body> is everything visible on the page. */
+      margin: 0;
+      /* Removes the browser's default white gap around the page. */
+      background: var(--olive);
+      /* Paints the whole page olive. */
+      color: var(--cream);
+      /* Makes text cream by default. */
+      font-family: var(--sans);
+      /* Uses Helvetica for text by default. */
+      font-size: 16px;
+      /* The default text size (on the 8px scale). */
+      line-height: 24px;
+      /* The default space for each line of text (on the 8px scale). */
+    }
+
+    a {
+      /* Applies to every link. */
+      color: var(--cream);
+      /* Links are cream like the rest of the text. */
+      text-decoration: none;
+      /* Removes the default underline. */
+    }
+
+    a:hover, a:focus-visible {
+      /* When a link is hovered with a mouse or reached with the keyboard... */
+      color: var(--accent);
+      /* ...it turns green, so people can see where they are. */
+    }
+
+    img {
+      /* Applies to every image. */
+      display: block;
+      /* Removes the small gap browsers leave under images. */
+      max-width: 100%;
+      /* Stops images from ever being wider than their container. */
+      height: auto;
+      /* Keeps each image's proportions when it shrinks. */
+    }
+
+    h1, h2, h3, p, figure, ol, ul {
+      /* Headings, paragraphs, figures and lists. */
+      margin: 0;
+      /* Removes the browser's default spacing so we control all spacing ourselves. */
+    }
+
+    ol, ul {
+      /* Ordered and unordered lists. */
+      padding: 0;
+      /* Removes the default indent. */
+      list-style: none;
+      /* Removes the default bullets and numbers (we add our own "01, 02, 03"). */
+    }
+
+    .serif {
+      /* Any element with class="serif". */
+      font-family: var(--serif);
+      /* Switches it to EB Garamond. */
+      font-weight: 400;
+      /* Keeps Garamond at its regular weight. */
+    }
+
+    .label {
+      /* Small labels like "Role", "Overview" and figure captions. */
+      font-size: 12px;
+      /* Small text (half-step on the 8px scale). */
+      line-height: 16px;
+      /* Line height to match. */
+      color: var(--muted);
+      /* Softer cream so labels sit behind the main text. */
+    }
+
+    .skip-link {
+      /* A hidden link that lets keyboard users jump straight to the content. */
+      position: absolute;
+      /* Takes it out of the normal flow of the page. */
+      left: -9999px;
+      /* Moves it far off screen until it's needed. */
+    }
+
+    .skip-link:focus {
+      /* When someone presses Tab and lands on it... */
+      left: 16px;
+      /* ...it slides back on screen... */
+      top: 16px;
+      /* ...near the top left... */
+      z-index: 10;
+      /* ...above everything else... */
+      background: var(--cream);
+      /* ...on a cream background... */
+      color: var(--olive);
+      /* ...with olive text... */
+      padding: 8px 16px;
+      /* ...and some space around it. */
+    }
+
+    /* ---------- 4. Two-column layout: menu on the left, project on the right ---------- */
+
+    .layout {
+      /* The wrapper around the menu and the project. */
+      display: grid;
+      /* Lays out its children in a grid. */
+      grid-template-columns: 518px minmax(0, 1fr);
+      /* Left column is 518px wide (the menu); the right column takes the rest. */
+      min-height: 100vh;
+      /* Is at least as tall as the browser window. */
+    }
+
+    .site-nav {
+      /* The left-hand menu. */
+      position: sticky;
+      /* Makes the menu stay in place while the project scrolls. */
+      top: 0;
+      /* Sticks it to the very top of the window. */
+      height: 100vh;
+      /* Makes it exactly as tall as the window. */
+      padding: 16px 16px 40px 18px;
+      /* Space inside the menu: top, right, bottom, left. */
+      border-right: 1px solid var(--rule);
+      /* The thin vertical line between the menu and the project. */
+      display: flex;
+      /* Lets us push the project links to the bottom of the menu. */
+      flex-direction: column;
+      /* Stacks the menu's contents top to bottom. */
+      justify-content: space-between;
+      /* Puts your name at the top and the project links at the bottom. */
+      font-family: var(--serif);
+      /* The menu uses Garamond. */
+      font-size: 40px;
+      /* Large menu text (on the 8px scale). */
+      line-height: 48px;
+      /* Line height to match. */
+    }
+
+    .site-nav .name {
+      /* Your name at the top of the menu. */
+      color: #e6e4d6;
+      /* A slightly warmer cream, as in your homepage. */
+    }
+
+    .site-nav ol {
+      /* The list of project links. */
+      padding-bottom: 24px;
+      /* Space under the list, above the divider line. */
+      border-bottom: 1px solid var(--rule);
+      /* The thin line under the menu. */
+    }
+
+    .site-nav .num {
+      /* The small "(1)", "(2)", "(3)" before each project. */
+      font-size: 16px;
+      /* Small text. */
+      vertical-align: top;
+      /* Lines it up with the top of the big text. */
+      position: relative;
+      /* Allows the tiny nudge below. */
+      top: 6px;
+      /* Nudges it down 6px so it sits neatly. */
+      margin-right: 4px;
+      /* A small gap before the project name. */
+    }
+
+    .site-nav [aria-current="page"] {
+      /* The link for the page you're currently on (ProActive). */
+      color: var(--accent);
+      /* Shown in green, so visitors know where they are. */
+    }
+
+    .site-nav .extra {
+      /* "Play" and "CV/Resume". */
+      margin-top: 48px;
+      /* A gap separating them from the project links. */
+    }
+
+    .project {
+      /* The right-hand column with the case study. */
+      padding: 24px 16px 120px;
+      /* Space inside: 24px at the top, 16px at the sides, 120px at the bottom. */
+      max-width: 922px;
+      /* Stops lines of text becoming too long on wide screens. */
+    }
+
+    /* ---------- 5. Project header ---------- */
+
+    .meta-bar {
+      /* The top line: "Case study · 5 chapters" and "2025–present". */
+      display: flex;
+      /* Puts the two pieces of text side by side. */
+      justify-content: space-between;
+      /* Pushes one to the left edge and one to the right edge. */
+    }
+
+    .project-title {
+      /* The big "ProActive" heading. */
+      margin-top: 16px;
+      /* Space above it. */
+      font-size: 64px;
+      /* Largest size on the page. */
+      line-height: 72px;
+      /* Line height to match. */
+    }
+
+    .subtitle {
+      /* The line under the title. */
+      margin-top: 8px;
+      /* Space above it. */
+      font-size: 24px;
+      /* Medium-large text. */
+      line-height: 32px;
+      /* Line height to match. */
+      color: var(--muted);
+      /* Softer cream. */
+    }
+
+    /* ---------- 6. Hero image: vest photo + two dashboard screens ---------- */
+
+    .hero {
+      /* The cream panel holding the photo and the two screens. */
+      margin-top: 32px;
+      /* Space above the panel. */
+      display: grid;
+      /* Lays out the photo and screens in a grid. */
+      grid-template-columns: 430px minmax(0, 1fr);
+      /* Photo takes 430px; the screens take the rest. */
+      background: #e4e1cc;
+      /* Light cream background behind the screens. */
+      min-height: 520px;
+      /* The panel is at least 520px tall. */
+    }
+
+    .hero-photo {
+      /* The wrapper around the vest photo. */
+      position: relative;
+      /* Lets us place the label on top of the photo. */
+    }
+
+    .hero-photo img {
+      /* The vest photo itself. */
+      width: 100%;
+      /* Fills its column. */
+      height: 100%;
+      /* Fills the panel's height. */
+      object-fit: cover;
+      /* Crops the photo to fill the space without stretching it. */
+      object-position: 46% 50%;
+      /* Keeps the hands and zip in view when cropping. */
+    }
+
+    .photo-tag {
+      /* The "ProActive vest, 2026 prototype" pill on the photo. */
+      position: absolute;
+      /* Places it on top of the photo. */
+      left: 16px;
+      /* 16px from the photo's left edge. */
+      bottom: 16px;
+      /* 16px from the photo's bottom edge. */
+      padding: 4px 12px;
+      /* Space inside the pill. */
+      border-radius: 999px;
+      /* Fully rounded ends. */
+      background: rgba(244, 242, 230, 0.92);
+      /* Almost-solid cream. */
+      color: var(--olive);
+      /* Olive text. */
+      font-size: 12px;
+      /* Small text. */
+      line-height: 16px;
+      /* Line height to match. */
+    }
+
+    .hero-screens {
+      /* The area holding the two dashboard screens. */
+      display: flex;
+      /* Puts the two screens side by side. */
+      gap: 32px;
+      /* Space between the screens. */
+      justify-content: center;
+      /* Centres them horizontally. */
+      align-items: center;
+      /* Centres them vertically. */
+      padding: 40px 24px;
+      /* Space around the screens. */
+    }
+
+    .hero-screens figure {
+      /* Each screen plus its "Vest off"/"Vest on" label. */
+      width: 180px;
+      /* Each screen is 180px wide. */
+    }
+
+    .state {
+      /* The "Vest off" / "Vest on" label. */
+      display: flex;
+      /* Puts the coloured dot and the words side by side. */
+      align-items: center;
+      /* Lines up the dot with the text. */
+      gap: 8px;
+      /* Space between dot and words. */
+      margin-bottom: 12px;
+      /* Space between the label and the screen. */
+      color: var(--olive);
+      /* Olive text (it sits on cream). */
+      font-size: 12px;
+      /* Small text. */
+      line-height: 16px;
+      /* Line height to match. */
+    }
+
+    .dot {
+      /* The small coloured circle. */
+      width: 8px;
+      /* 8px wide. */
+      height: 8px;
+      /* 8px tall. */
+      border-radius: 50%;
+      /* Makes the square into a circle. */
+      background: #8a8c72;
+      /* Grey for "Vest off". */
+    }
+
+    .dot.on {
+      /* The dot for "Vest on". */
+      background: #107659;
+      /* The app's activate green. */
+    }
+
+    /* ---------- 7. Screen cards (every app screenshot on the page) ---------- */
+
+    .screen {
+      /* Wraps each app screenshot. */
+      border-radius: 28px;
+      /* Rounded corners, like a phone screen. */
+      overflow: hidden;
+      /* Clips the screenshot to those rounded corners. */
+      background: #ffffff;
+      /* White behind the screenshot while it loads. */
+      box-shadow: var(--shadow);
+      /* The soft shadow defined at the top. */
+    }
+
+    .hero .screen {
+      /* The smaller screens in the hero. */
+      border-radius: 20px;
+      /* Slightly smaller corners to suit their size. */
+    }
+
+    figcaption {
+      /* Every figure caption ("Fig. 1 · ..."). */
+      margin-top: 8px;
+      /* Space between the image and its caption. */
+    }
+
+    .plate-caption {
+      /* The caption under the hero. */
+      margin-top: 8px;
+      /* Space above it. */
+    }
+
+    /* ---------- 8. Detail rows (Role, Timeline, Overview, How the vest works...) ---------- */
+
+    .details {
+      /* The four columns: Role, Timeline, Team, Tools. */
+      margin-top: 32px;
+      /* Space above them. */
+      display: grid;
+      /* Lays them out in a grid. */
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      /* Four equal columns. */
+      gap: 16px;
+      /* Space between columns. */
+    }
+
+    .details dd {
+      /* The value under each label (e.g. "UX/UI designer"). */
+      margin: 8px 0 0;
+      /* 8px above, nothing on the other sides. */
+    }
+
+    .details dt {
+      /* Each label (e.g. "Role"). It uses the .label look. */
+      font-size: 12px;
+      /* Small text. */
+      line-height: 16px;
+      /* Line height to match. */
+      color: var(--muted);
+      /* Softer cream. */
+    }
+
+    .row {
+      /* A section with a label on the left and content on the right. */
+      margin-top: 48px;
+      /* Space above the section. */
+      padding-top: 16px;
+      /* Space between the divider line and the content. */
+      border-top: 1px solid var(--rule);
+      /* The thin divider line above the section. */
+      display: grid;
+      /* Lays out the label and content in a grid. */
+      grid-template-columns: 136px minmax(0, 1fr);
+      /* Label column is 136px; content takes the rest. */
+      gap: 16px;
+      /* Space between label and content. */
+    }
+
+    .row > .content {
+      /* The content side of a row. */
+      max-width: 640px;
+      /* Keeps text lines a comfortable reading length. */
+    }
+
+    .vest-works {
+      /* The "How the vest works" photo and text. */
+      display: grid;
+      /* Puts the photo and text side by side. */
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      /* Two equal columns. */
+      gap: 32px;
+      /* Space between photo and text. */
+      max-width: none;
+      /* Lets this row use the full width. */
+    }
+
+    .vest-works img {
+      /* The mannequin photo. */
+      aspect-ratio: 4 / 5;
+      /* A portrait shape. */
+      object-fit: cover;
+      /* Crops to fill that shape without stretching. */
+      width: 100%;
+      /* Fills its column. */
+    }
+
+    .statement {
+      /* Short serif statements like "Sensory overload happens in everyday places." */
+      font-size: 32px;
+      /* Large serif text. */
+      line-height: 40px;
+      /* Line height to match. */
+    }
+
+    .numbered li {
+      /* Each item in a numbered list ("01 ..."). */
+      display: flex;
+      /* Puts the number and the text side by side. */
+      gap: 16px;
+      /* Space between number and text. */
+      margin-top: 8px;
+      /* Space between items. */
+    }
+
+    .numbered .n {
+      /* The "01", "02", "03". */
+      flex: none;
+      /* Stops the number from shrinking. */
+      width: 28px;
+      /* Gives every number the same width so the text lines up. */
+      color: var(--muted);
+      /* Softer cream. */
+    }
+
+    .stack > * + * {
+      /* Inside a .stack, every element that follows another one... */
+      margin-top: 8px;
+      /* ...gets 8px of space above it. */
+    }
+
+    .stack-24 > * + * {
+      /* Same idea, with a 24px gap. */
+      margin-top: 24px;
+    }
+
+    .figures {
+      /* The big money figures under "Recognition". */
+      display: grid;
+      /* Grid layout. */
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      /* Two equal columns. */
+      gap: 16px;
+      /* Space between them. */
+    }
+
+    .big-number {
+      /* "CA$30,000" and "£5,000". */
+      font-size: 56px;
+      /* Very large serif numbers. */
+      line-height: 64px;
+      /* Line height to match. */
+    }
+
+    .awards {
+      /* The four award names. */
+      margin-top: 32px;
+      /* Space above them. */
+      display: grid;
+      /* Grid layout. */
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      /* Four equal columns. */
+      gap: 16px;
+      /* Space between them. */
+    }
+
+    .awards li {
+      /* Each award. */
+      padding-top: 12px;
+      /* Space under the line above it. */
+      border-top: 1px solid var(--rule);
+      /* A thin line above each award. */
+    }
+
+    .award-name {
+      /* The award's name, e.g. "James Dyson Award". */
+      font-size: 24px;
+      /* Medium serif text. */
+      line-height: 32px;
+      /* Line height to match. */
+    }
+
+    /* ---------- 9. Contents: book-style chapters you can open and close ---------- */
+
+    .contents-head {
+      /* The "Contents" title and its hint. */
+      margin-top: 120px;
+      /* Lots of space above, to start a new part of the page. */
+      display: flex;
+      /* Puts the title and hint side by side. */
+      justify-content: space-between;
+      /* Title on the left, hint on the right. */
+      align-items: baseline;
+      /* Lines up their text along the bottom. */
+    }
+
+    .contents-title {
+      /* The word "Contents". */
+      font-size: 64px;
+      /* Same size as the project title. */
+      line-height: 72px;
+      /* Line height to match. */
+    }
+
+    .chapters {
+      /* The list of chapters. */
+      margin-top: 32px;
+      /* Space above the first chapter. */
+      border-bottom: 1px solid var(--rule);
+      /* A line under the last chapter. */
+    }
+
+    details {
+      /* Each chapter. <details> is a built-in HTML element that opens and closes when clicked. */
+      border-top: 1px solid var(--rule);
+      /* A line above each chapter. */
+    }
+
+    summary {
+      /* The clickable chapter line ("I. Problem and Goals ....... p. 1"). */
+      display: flex;
+      /* Puts the number, title, dotted line and page number in a row. */
+      align-items: baseline;
+      /* Lines them up along the bottom of the text. */
+      gap: 16px;
+      /* Space between them. */
+      padding: 16px 0;
+      /* Space above and below the line. */
+      cursor: pointer;
+      /* Shows a hand cursor so people know they can click. */
+      list-style: none;
+      /* Hides the browser's default triangle. */
+      font-family: var(--serif);
+      /* Garamond for the chapter line. */
+    }
+
+    summary::-webkit-details-marker {
+      /* Safari's version of the default triangle... */
+      display: none;
+      /* ...is hidden too. */
+    }
+
+    summary:focus-visible {
+      /* When someone reaches a chapter with the keyboard... */
+      outline: 2px solid var(--accent);
+      /* ...it gets a green outline... */
+      outline-offset: 4px;
+      /* ...slightly outside the text. */
+    }
+
+    .ch-num {
+      /* The roman numeral ("I.", "II."). */
+      width: 56px;
+      /* Fixed width so the titles line up. */
+      flex: none;
+      /* Stops it from shrinking. */
+      font-size: 24px;
+      /* Medium size. */
+      line-height: 32px;
+      /* Line height to match. */
+      color: var(--muted);
+      /* Softer cream. */
+    }
+
+    .ch-title {
+      /* The chapter title. */
+      flex: none;
+      /* Stops it from shrinking. */
+      font-size: 40px;
+      /* Large serif. */
+      line-height: 48px;
+      /* Line height to match. */
+      color: var(--accent);
+      /* Green, like a chapter heading in a book. */
+    }
+
+    .leader {
+      /* The dotted line between title and page number, like a book's contents page. */
+      flex: 1;
+      /* Stretches to fill the space. */
+      min-width: 40px;
+      /* Never shorter than 40px. */
+      border-bottom: 1px dotted rgba(244, 242, 230, 0.5);
+      /* The dots. */
+      transform: translateY(-8px);
+      /* Lifts the dots up to sit beside the text. */
+    }
+
+    .ch-page {
+      /* "p. 1", "p. 2"... */
+      flex: none;
+      /* Stops it from shrinking. */
+      font-size: 24px;
+      /* Medium size. */
+      line-height: 32px;
+      /* Line height to match. */
+      color: var(--muted);
+      /* Softer cream. */
+    }
+
+    .ch-sign {
+      /* The "+" / "−" on the right. */
+      flex: none;
+      /* Stops it from shrinking. */
+      width: 32px;
+      /* Fixed width. */
+      text-align: right;
+      /* Sits against the right edge. */
+      font-family: var(--sans);
+      /* Helvetica for the symbol. */
+      font-size: 24px;
+      /* Medium size. */
+    }
+
+    .ch-sign::before {
+      /* Adds text before the sign element... */
+      content: "+";
+      /* ...a plus when the chapter is closed. */
+    }
+
+    details[open] .ch-sign::before {
+      /* When the chapter is open... */
+      content: "−";
+      /* ...it shows a minus instead. */
+    }
+
+    .chapter-body {
+      /* The content inside an open chapter. */
+      padding: 16px 0 72px 72px;
+      /* Space around it, indented 72px so it lines up under the title. */
+    }
+
+    .intro {
+      /* A chapter's opening paragraph. */
+      max-width: 640px;
+      /* Comfortable reading width. */
+    }
+
+    .subhead {
+      /* Small headings inside a chapter, like "Goals". */
+      margin-top: 32px;
+      /* Space above. */
+    }
+
+    .three-up {
+      /* A row of three: two screens and a note, or three screens. */
+      margin-top: 40px;
+      /* Space above the row. */
+      display: grid;
+      /* Grid layout. */
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      /* Three equal columns. */
+      gap: 24px;
+      /* Space between them. */
+      align-items: start;
+      /* Lines everything up at the top. */
+    }
+
+    .note .statement {
+      /* The serif heading inside a side note. */
+      font-size: 32px;
+      /* Large serif. */
+      line-height: 40px;
+      /* Line height to match. */
+    }
+
+    .note p {
+      /* The text under a side note heading. */
+      margin-top: 8px;
+      /* Space above it. */
+    }
+
+    .quote {
+      /* The colour scheme quote. */
+      margin-top: 48px;
+      /* Space above. */
+      padding: 16px 0;
+      /* Space above and below the text, inside the lines. */
+      border-top: 1px solid var(--rule);
+      /* A line above. */
+      border-bottom: 1px solid var(--rule);
+      /* A line below. */
+      font-size: 24px;
+      /* Medium serif. */
+      line-height: 32px;
+      /* Line height to match. */
+    }
+
+    .palette {
+      /* The five colour swatches. */
+      margin-top: 24px;
+      /* Space above. */
+      display: grid;
+      /* Grid layout. */
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      /* Five equal columns. */
+      gap: 12px;
+      /* Space between swatches. */
+    }
+
+    .swatch {
+      /* Each block of colour. */
+      height: 48px;
+      /* 48px tall. */
+      border: 1px solid rgba(244, 242, 230, 0.25);
+      /* A faint outline so dark colours stand out on olive. */
+      margin-bottom: 8px;
+      /* Space between the block and its name. */
+    }
+
+    .before-after {
+      /* The two GIFs in the Iteration chapter. */
+      margin-top: 40px;
+      /* Space above. */
+      display: grid;
+      /* Grid layout. */
+      grid-template-columns: repeat(2, minmax(0, 300px));
+      /* Two columns, each up to 300px wide. */
+      gap: 64px;
+      /* Generous space between before and after. */
+    }
+
+    .before-after .stack {
+      /* The text under each GIF. */
+      margin-top: 16px;
+      /* Space between the GIF and its text. */
+    }
+
+    .next-project {
+      /* The "Next project" link at the end. */
+      margin-top: 96px;
+      /* Lots of space above. */
+      display: flex;
+      /* Puts the label and link side by side. */
+      align-items: baseline;
+      /* Lines up their text along the bottom. */
+      gap: 16px;
+      /* Space between them. */
+    }
+
+    .next-project a {
+      /* The project name link. */
+      font-size: 40px;
+      /* Large serif. */
+      line-height: 48px;
+      /* Line height to match. */
+    }
+
+    /* ---------- 10. Smaller screens (tablets and phones) ---------- */
+
+    @media (max-width: 960px) {
+      /* Everything inside here only applies when the window is 960px wide or less. */
+
+      .layout {
+        /* The two-column layout... */
+        grid-template-columns: minmax(0, 1fr);
+        /* ...becomes a single column: menu on top, project below. */
+      }
+
+      .site-nav {
+        /* The menu... */
+        position: static;
+        /* ...stops sticking to the side... */
+        height: auto;
+        /* ...is only as tall as its contents... */
+        border-right: 0;
+        /* ...loses its side line... */
+        border-bottom: 1px solid var(--rule);
+        /* ...and gets a line underneath instead. */
+        font-size: 24px;
+        /* Smaller menu text. */
+        line-height: 32px;
+        /* Line height to match. */
+        gap: 24px;
+        /* Space between your name and the links. */
+      }
+
+      .site-nav .extra {
+        /* "Play" and "CV/Resume"... */
+        margin-top: 16px;
+        /* ...sit closer to the project links. */
+      }
+
+      .hero {
+        /* The hero panel... */
+        grid-template-columns: minmax(0, 1fr);
+        /* ...stacks the photo above the screens. */
+      }
+
+      .hero-photo img {
+        /* The vest photo... */
+        aspect-ratio: 4 / 3;
+        /* ...becomes a landscape shape when stacked. */
+      }
+
+      .details, .awards {
+        /* Role/Timeline/Team/Tools and the awards... */
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        /* ...become two columns. */
+        row-gap: 24px;
+        /* With space between rows. */
+      }
+
+      .row, .vest-works, .three-up, .figures {
+        /* Label/content rows and side-by-side groups... */
+        grid-template-columns: minmax(0, 1fr);
+        /* ...stack into one column. */
+      }
+
+      .chapter-body {
+        /* Chapter content... */
+        padding-left: 0;
+        /* ...loses its indent to save space. */
+      }
+
+      .ch-title {
+        /* Chapter titles... */
+        font-size: 32px;
+        /* ...get a little smaller. */
+        line-height: 40px;
+        /* Line height to match. */
+      }
+    }
+
+    @media (max-width: 560px) {
+      /* Extra rules for phones (560px wide or less). */
+
+      .project-title, .contents-title {
+        /* "ProActive" and "Contents"... */
+        font-size: 48px;
+        /* ...shrink to fit a phone. */
+        line-height: 56px;
+        /* Line height to match. */
+      }
+
+      .hero-screens {
+        /* The two dashboard screens... */
+        gap: 16px;
+        /* ...sit closer together. */
+        padding: 24px 16px;
+        /* With less space around them. */
+      }
+
+      .hero-screens figure {
+        /* Each screen... */
+        width: 45%;
+        /* ...takes just under half the width. */
+      }
+
+      .leader, .ch-page {
+        /* The dotted lines and page numbers... */
+        display: none;
+        /* ...are hidden on phones to make room for the titles. */
+      }
+
+      .palette {
+        /* The colour swatches... */
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        /* ...wrap into rows of three. */
+      }
+
+      .before-after {
+        /* The before and after GIFs... */
+        grid-template-columns: minmax(0, 1fr);
+        /* ...stack on top of each other. */
+        gap: 40px;
+        /* With space between them. */
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      /* For visitors who've asked their device to reduce motion. */
+      html {
+        /* The whole page... */
+        scroll-behavior: auto;
+        /* ...scrolls instantly rather than smoothly. */
+      }
+    }
+  </style>
+  <!-- End of the CSS. -->
+</head>
+<!-- End of the <head>. -->
+
+<body>
+  <!-- Everything visible starts here. -->
+
+  <a class="skip-link" href="#main">Skip to the case study</a>
+  <!-- Hidden link for keyboard users: press Tab once and it appears, letting them skip the menu. -->
+
+  <div class="layout">
+    <!-- The two-column wrapper: menu on the left, project on the right. -->
+
+    <nav class="site-nav" aria-label="Main">
+      <!-- The menu. aria-label="Main" tells screen readers this is the main navigation. -->
+
+      <a class="name" href="index.html">Varsha Gartaula</a>
+      <!-- Your name. Clicking it goes back to the homepage (index.html). -->
+
+      <div>
+        <!-- Groups the links at the bottom of the menu. -->
+
+        <ol>
+          <!-- An ordered list of your projects. -->
+
+          <li><a href="proactive-vest.html" aria-current="page"><span class="num">(1)</span>Proactive Vest</a></li>
+          <!-- Project 1: this page. aria-current="page" marks it as the page you're on, and turns it green. -->
+
+          <li><a href="redesign.html"><span class="num">(2)</span>When is Redesign Necessary?</a></li>
+          <!-- Project 2 (the page redesign.html, matching your homepage menu). -->
+
+          <li><a href="portals.html"><span class="num">(3)</span>University portals/other?</a></li>
+          <!-- Project 3 (portals.html). -->
+        </ol>
+        <!-- End of the project list. -->
+
+        <div class="extra">
+          <!-- Groups "Play" and "CV/Resume". -->
+          <a href="play.html" style="display:block">Play</a>
+          <!-- Link to your Play page. display:block puts it on its own line. -->
+          <a href="cv.html" style="display:block">CV/Resume</a>
+          <!-- Link to your CV page. -->
+        </div>
+        <!-- End of "Play" and "CV/Resume". -->
+      </div>
+      <!-- End of the bottom group. -->
+    </nav>
+    <!-- End of the menu. -->
+
+    <main id="main" class="project">
+      <!-- The case study. id="main" is where the skip link jumps to. -->
+
+      <!-- ===== HEADER ===== -->
+
+      <div class="meta-bar label">
+        <!-- The top line of small labels. -->
+        <span>Case study · 5 chapters</span>
+        <!-- Left label. -->
+        <span>2025–present</span>
+        <!-- Right label. -->
+      </div>
+      <!-- End of the top line. -->
+
+      <h1 class="project-title serif">ProActive</h1>
+      <!-- The project title. <h1> is the page's main heading, which helps screen readers and search engines. -->
+
+      <p class="subtitle serif">The companion app for a self-inflating vest that eases sensory overload</p>
+      <!-- The subtitle. -->
+
+      <div class="hero">
+        <!-- The hero panel. -->
+
+        <div class="hero-photo">
+          <!-- The left side: the vest photo. -->
+          <img src="images/proactive/vest-worn.jpg" alt="A person zipping up the ProActive vest prototype">
+          <!-- The photo. alt describes it for people who can't see it. -->
+          <span class="photo-tag">ProActive vest, 2026 prototype</span>
+          <!-- The label on top of the photo. -->
+        </div>
+        <!-- End of the photo side. -->
+
+        <div class="hero-screens">
+          <!-- The right side: the two dashboard screens. -->
+
+          <figure>
+            <!-- A figure groups an image with its label. -->
+            <div class="state"><span class="dot"></span>Vest off</div>
+            <!-- The grey dot and "Vest off" label. -->
+            <div class="screen"><img src="images/proactive/dashboard-vest-off.png" alt="Dashboard with the vest inactive and an Activate Vest button"></div>
+            <!-- The "vest off" dashboard screenshot inside a rounded card. -->
+          </figure>
+          <!-- End of the first screen. -->
+
+          <figure>
+            <!-- The second screen. -->
+            <div class="state"><span class="dot on"></span>Vest on</div>
+            <!-- The green dot and "Vest on" label. -->
+            <div class="screen"><img src="images/proactive/dashboard-vest-on.png" alt="Dashboard with the vest active and a Deactivate Vest button"></div>
+            <!-- The "vest on" dashboard screenshot. -->
+          </figure>
+          <!-- End of the second screen. -->
+        </div>
+        <!-- End of the screens side. -->
+      </div>
+      <!-- End of the hero panel. -->
+
+      <p class="plate-caption label">Plate I · The ProActive vest, and the app's dashboard in both states. I kept one control in the same place in both states.</p>
+      <!-- The caption under the hero. -->
+
+      <dl class="details">
+        <!-- A description list: pairs of labels (dt) and values (dd). -->
+        <div><dt>Role</dt><dd>UX/UI designer</dd></div>
+        <!-- Column 1: your role. -->
+        <div><dt>Timeline</dt><dd>2025–present</dd></div>
+        <!-- Column 2: the timeline. -->
+        <div><dt>Team</dt><dd><a href="https://www.vayence.ca/" target="_blank" rel="noopener">Vayence Inc, Toronto</a><br>Remote</dd></div>
+        <!-- Column 3: the company (opens their site in a new tab) and "Remote". rel="noopener" is a safety setting for new-tab links. -->
+        <div><dt>Tools</dt><dd>Figma, Claude</dd></div>
+        <!-- Column 4: your tools. -->
+      </dl>
+      <!-- End of the four columns. -->
+
+      <section class="row">
+        <!-- A row: label on the left, content on the right. <section> marks a part of the page. -->
+        <h2 class="label">Overview</h2>
+        <!-- The row's label. -->
+        <p class="content">ProActive is a reusable, self-inflating vest for people with autism and sensory sensitivities. I designed the app that pairs with it, end to end: I turned the research team's findings into features, then designed the flows, the screens and the colour system, so wearers and caregivers can see what the vest senses, control it, and learn from each episode.</p>
+        <!-- The overview text. -->
+      </section>
+      <!-- End of the Overview row. -->
+
+      <section class="row">
+        <!-- The "How the vest works" row. -->
+        <h2 class="label">How the vest works</h2>
+        <!-- The row's label. -->
+        <div class="content vest-works">
+          <!-- Photo and text side by side. -->
+          <figure>
+            <!-- The photo and its caption. -->
+            <img src="images/proactive/vest-form.jpg" alt="The ProActive vest prototype on a dress form">
+            <!-- The mannequin photo. -->
+            <figcaption class="label">The ProActive prototype, 2026 · in development</figcaption>
+            <!-- Its caption. -->
+          </figure>
+          <!-- End of the photo. -->
+          <div>
+            <!-- The text side. -->
+            <p class="statement serif">Sensory overload happens in everyday places.</p>
+            <!-- The serif statement. -->
+            <p style="margin-top:8px">Sound, light, crowds and touch can all trigger it.</p>
+            <!-- The line under it, 8px below. -->
+            <ol class="numbered" style="margin-top:24px">
+              <!-- The three steps, 24px below. -->
+              <li><span class="n">01</span><span>Sensors in the vest detect rising stress.</span></li>
+              <!-- Step 1. -->
+              <li><span class="n">02</span><span>The vest inflates to apply firm, even pressure.</span></li>
+              <!-- Step 2. -->
+              <li><span class="n">03</span><span>It deflates once the wearer is calm.</span></li>
+              <!-- Step 3. -->
+            </ol>
+            <!-- End of the steps. -->
+          </div>
+          <!-- End of the text side. -->
+        </div>
+        <!-- End of photo and text. -->
+      </section>
+      <!-- End of the "How the vest works" row. -->
+
+      <section class="row">
+        <!-- The Recognition row. -->
+        <h2 class="label">Recognition</h2>
+        <!-- The row's label. -->
+        <div class="content" style="max-width:none">
+          <!-- The content uses the full width (max-width:none). -->
+          <div class="figures">
+            <!-- The two big numbers. -->
+            <div><p class="big-number serif">CA$30,000</p><p class="label" style="margin-top:8px">Total funding won through awards</p></div>
+            <!-- First number and its label. -->
+            <div><p class="big-number serif">£5,000</p><p class="label" style="margin-top:8px">From the James Dyson Award</p></div>
+            <!-- Second number and its label. -->
+          </div>
+          <!-- End of the numbers. -->
+          <ul class="awards">
+            <!-- The four awards. -->
+            <li><p class="award-name serif">James Dyson Award</p><p class="label">Canadian national winner, 2026</p></li>
+            <!-- Award 1. -->
+            <li><p class="award-name serif">ACIDO</p><p class="label">People's Choice Award, 2025</p></li>
+            <!-- Award 2. -->
+            <li><p class="award-name serif">Cboe Canada</p><p class="label">Award for Disruptive Design, 2025</p></li>
+            <!-- Award 3. -->
+            <li><p class="award-name serif">RBC CEAD Seed Fund</p><p class="label">Runner-up, 2026</p></li>
+            <!-- Award 4. -->
+          </ul>
+          <!-- End of the awards. -->
+        </div>
+        <!-- End of the Recognition content. -->
+      </section>
+      <!-- End of the Recognition row. -->
+
+      <section class="row">
+        <!-- The Outcome row. -->
+        <h2 class="label">Outcome</h2>
+        <!-- The row's label. -->
+        <p class="content">The vest doesn't work without the app: it's how wearers see what the vest senses and turn it on and off. The app is pitched as part of the product, and my screens are shown alongside the vest at startup showcases.</p>
+        <!-- The outcome text. -->
+      </section>
+      <!-- End of the Outcome row. -->
+
+      <!-- ===== CONTENTS ===== -->
+
+      <div class="contents-head">
+        <!-- The "Contents" heading and hint. -->
+        <h2 class="contents-title serif">Contents</h2>
+        <!-- The word "Contents". -->
+        <p class="label">Select a chapter to open or close it</p>
+        <!-- The hint on the right. -->
+      </div>
+      <!-- End of the heading. -->
+
+      <div class="chapters">
+        <!-- All five chapters. -->
+
+        <!-- ----- Chapter I ----- -->
+        <details open>
+          <!-- A chapter. "open" means it starts open; remove "open" to start it closed. -->
+          <summary>
+            <!-- The clickable chapter line. -->
+            <span class="ch-num">I.</span>
+            <!-- Roman numeral. -->
+            <span class="ch-title">Problem and Goals</span>
+            <!-- Chapter title. -->
+            <span class="leader" aria-hidden="true"></span>
+            <!-- Dotted line. aria-hidden stops screen readers announcing it. -->
+            <span class="ch-page">p. 1</span>
+            <!-- Page number. -->
+            <span class="ch-sign" aria-hidden="true"></span>
+            <!-- The +/− sign (filled in by the CSS). -->
+          </summary>
+          <!-- End of the chapter line. -->
+
+          <div class="chapter-body">
+            <!-- The chapter's content. -->
+            <p class="intro">I turned the startup's research into the app's brief. Because the app and the vest are being built at the same time, I keep reiterating the design as the hardware changes and the research team learns more. With this user base, I made accessibility my first priority throughout.</p>
+            <!-- Opening paragraph. -->
+
+            <h3 class="label subhead">Goals</h3>
+            <!-- Small "Goals" heading. -->
+            <ol class="numbered intro">
+              <!-- The three goals. -->
+              <li><span class="n">01</span><span>A visible, accessible emergency help screen</span></li>
+              <!-- Goal 1. -->
+              <li><span class="n">02</span><span>A calming colour scheme that still passes contrast checks</span></li>
+              <!-- Goal 2. -->
+              <li><span class="n">03</span><span>Many functions, with navigation that stays clear</span></li>
+              <!-- Goal 3. -->
+            </ol>
+            <!-- End of the goals. -->
+
+            <div class="three-up">
+              <!-- Two screens and a note in a row of three. -->
+              <figure>
+                <!-- Screen 1. -->
+                <div class="screen"><img src="images/proactive/severe.png" alt="Severe episode alert with Deactivate Vest and Guided Meditation buttons" loading="lazy"></div>
+                <!-- loading="lazy" waits to load the image until the visitor scrolls near it, so the page opens faster. -->
+                <figcaption class="label">Fig. 1 · Severe episode: the two actions that matter come first.</figcaption>
+                <!-- Caption. -->
+              </figure>
+              <figure>
+                <!-- Screen 2. -->
+                <div class="screen"><img src="images/proactive/resolved.png" alt="Resolved episode summary with trigger analysis" loading="lazy"></div>
+                <!-- The screenshot. -->
+                <figcaption class="label">Fig. 2 · Resolved: a plain summary of what happened.</figcaption>
+                <!-- Caption. -->
+              </figure>
+              <div class="note">
+                <!-- The side note. -->
+                <p class="statement serif">Two buttons, nothing else</p>
+                <!-- Note heading. -->
+                <p>I cut this screen down to two actions. In the moment, the wearer only needs to stop the vest or start calming down; everything else waits until the episode is over.</p>
+                <!-- Note text. -->
+              </div>
+              <!-- End of the note. -->
+            </div>
+            <!-- End of the row of three. -->
+          </div>
+          <!-- End of the chapter content. -->
+        </details>
+        <!-- End of Chapter I. -->
+
+        <!-- ----- Chapter II ----- -->
+        <details open>
+          <!-- Chapter II, open by default. -->
+          <summary>
+            <!-- The chapter line (same structure as Chapter I). -->
+            <span class="ch-num">II.</span>
+            <span class="ch-title">Research</span>
+            <span class="leader" aria-hidden="true"></span>
+            <span class="ch-page">p. 2</span>
+            <span class="ch-sign" aria-hidden="true"></span>
+          </summary>
+
+          <div class="chapter-body">
+            <!-- The chapter's content. -->
+            <p class="intro">The research team ran user interviews and A/B tests. My role was to turn what they found into design decisions.</p>
+            <!-- Opening paragraph. -->
+
+            <h3 class="label subhead">What they found → what I designed</h3>
+            <!-- Small heading. -->
+            <ol class="numbered">
+              <!-- The three findings. -->
+              <li><span class="n">01</span><span>Wearers and caregivers couldn't tell what caused their stress → Trigger analysis that names the likely cause of each episode</span></li>
+              <!-- Finding 1. -->
+              <li><span class="n">02</span><span>Wearers needed guidance when stress peaked → Guided meditation offered at the moment stress rises</span></li>
+              <!-- Finding 2. -->
+              <li><span class="n">03</span><span>Wearers wanted privacy from caregivers, as some episodes were personal → Caregiver notes kept alongside a private journal</span></li>
+              <!-- Finding 3. -->
+            </ol>
+            <!-- End of the findings. -->
+
+            <div class="three-up">
+              <!-- Two screens and a note. -->
+              <figure>
+                <div class="screen"><img src="images/proactive/episode.png" alt="Episode detail with duration, likely triggers and suggestions" loading="lazy"></div>
+                <figcaption class="label">Fig. 3 · Episode detail: what happened, likely triggers and suggestions.</figcaption>
+              </figure>
+              <!-- Screen 1 and its caption. -->
+              <figure>
+                <div class="screen"><img src="images/proactive/triggers.png" alt="Most common triggers and tips that may help" loading="lazy"></div>
+                <figcaption class="label">Fig. 4 · Triggers: patterns across weeks, with tips that may help.</figcaption>
+              </figure>
+              <!-- Screen 2 and its caption. -->
+              <div class="note">
+                <p class="statement serif">From data to next steps</p>
+                <p>I made every insight end in something the wearer can do, such as adjusting the vest's sensitivity, with a quick “Helpful?” check.</p>
+              </div>
+              <!-- The side note. -->
+            </div>
+            <!-- End of the row. -->
+          </div>
+          <!-- End of the chapter content. -->
+        </details>
+        <!-- End of Chapter II. -->
+
+        <!-- ----- Chapter III ----- -->
+        <details open>
+          <!-- Chapter III. -->
+          <summary>
+            <span class="ch-num">III.</span>
+            <span class="ch-title">The App</span>
+            <span class="leader" aria-hidden="true"></span>
+            <span class="ch-page">p. 3</span>
+            <span class="ch-sign" aria-hidden="true"></span>
+          </summary>
+          <!-- The chapter line. -->
+
+          <div class="chapter-body">
+            <p class="intro">I designed the app around three jobs: show what the vest is sensing, give the wearer control, and help wearers and caregivers learn from past episodes.</p>
+            <!-- Opening paragraph. -->
+
+            <div class="three-up">
+              <!-- Three screens. -->
+              <figure>
+                <div class="screen"><img src="images/proactive/dashboard-vest-on.png" alt="Dashboard showing current status and the vest control" loading="lazy"></div>
+                <figcaption class="label">Fig. 5 · Dashboard: live status first, then one large vest control.</figcaption>
+              </figure>
+              <!-- Screen 1. -->
+              <figure>
+                <div class="screen"><img src="images/proactive/meditation.png" alt="Guided meditation, step one of five" loading="lazy"></div>
+                <figcaption class="label">Fig. 6 · Guided meditation: one instruction at a time.</figcaption>
+              </figure>
+              <!-- Screen 2. -->
+              <figure>
+                <div class="screen"><img src="images/proactive/insights.png" alt="Data and insights with recent episodes" loading="lazy"></div>
+                <figcaption class="label">Fig. 7 · Data and insights: recent episodes, rated by severity.</figcaption>
+              </figure>
+              <!-- Screen 3. -->
+            </div>
+            <!-- End of the three screens. -->
+
+            <blockquote class="quote serif" style="margin-left:0;margin-right:0">“A colour scheme where one is able to alert the user without increasing stress”</blockquote>
+            <!-- The quote. <blockquote> marks it as a quotation; the margins reset the browser's default indent. -->
+
+            <ul class="palette">
+              <!-- The five colours. Each swatch's colour is set with an inline style. -->
+              <li><div class="swatch" style="background:#02102b"></div><p class="label">Status navy<br>#02102b</p></li>
+              <!-- Colour 1. -->
+              <li><div class="swatch" style="background:#107659"></div><p class="label">Activate green<br>#107659</p></li>
+              <!-- Colour 2. -->
+              <li><div class="swatch" style="background:#950000"></div><p class="label">Deactivate red<br>#950000</p></li>
+              <!-- Colour 3. -->
+              <li><div class="swatch" style="background:#004446"></div><p class="label">Calm teal<br>#004446</p></li>
+              <!-- Colour 4. -->
+              <li><div class="swatch" style="background:#c2e4e6"></div><p class="label">Tile blue<br>#c2e4e6</p></li>
+              <!-- Colour 5. -->
+            </ul>
+            <!-- End of the palette. -->
+            <p class="label" style="margin-top:8px">Fig. 8 · The app's palette</p>
+            <!-- Palette caption. -->
+
+            <div class="three-up" style="margin-top:48px">
+              <!-- Two more screens and a note. -->
+              <figure>
+                <div class="screen"><img src="images/proactive/journal.png" alt="Notes and journal with a private journal entry" loading="lazy"></div>
+                <figcaption class="label">Fig. 9 · Journal: private by default.</figcaption>
+              </figure>
+              <!-- Screen 1. -->
+              <figure>
+                <div class="screen"><img src="images/proactive/export.png" alt="Export and share options for a report" loading="lazy"></div>
+                <figcaption class="label">Fig. 10 · Export: the wearer chooses what a report includes.</figcaption>
+              </figure>
+              <!-- Screen 2. -->
+              <div class="note">
+                <p class="statement serif">Private by default</p>
+                <p>I made journal entries private by default. They're marked “Only you can see this”, and stay out of shared reports unless the wearer turns them on.</p>
+              </div>
+              <!-- The side note. -->
+            </div>
+            <!-- End of the row. -->
+          </div>
+          <!-- End of the chapter content. -->
+        </details>
+        <!-- End of Chapter III. -->
+
+        <!-- ----- Chapter IV ----- -->
+        <details open>
+          <!-- Chapter IV. -->
+          <summary>
+            <span class="ch-num">IV.</span>
+            <span class="ch-title">Iteration Example</span>
+            <span class="leader" aria-hidden="true"></span>
+            <span class="ch-page">p. 4</span>
+            <span class="ch-sign" aria-hidden="true"></span>
+          </summary>
+          <!-- The chapter line. -->
+
+          <div class="chapter-body">
+            <p class="intro">In my first version of the data log, people had to open each section in turn to understand one episode. I realised the order of information was the problem, and rebuilt it as a shorter, cleaner flow.</p>
+            <!-- Opening paragraph. -->
+
+            <div class="before-after">
+              <!-- The two GIFs side by side. -->
+              <figure>
+                <!-- Before. -->
+                <div class="screen"><img src="images/proactive/proactive-before-10-screens.gif" alt="The first data log flow, playing through ten screens" loading="lazy"></div>
+                <!-- The "before" GIF (it plays by itself). -->
+                <div class="stack">
+                  <!-- The text under it, 8px apart. -->
+                  <p class="label">Before</p>
+                  <p class="statement serif">10 screens</p>
+                  <p>A date picker, three dropdowns and tooltips.</p>
+                </div>
+              </figure>
+              <!-- End of before. -->
+              <figure>
+                <!-- After. -->
+                <div class="screen"><img src="images/proactive/proactive-after-3-screens.gif" alt="The new data log flow, playing through three screens" loading="lazy"></div>
+                <!-- The "after" GIF. -->
+                <div class="stack">
+                  <p class="label">After</p>
+                  <p class="statement serif">3 screens</p>
+                  <p>Recent episodes, the week, then one episode on one page.</p>
+                </div>
+              </figure>
+              <!-- End of after. -->
+            </div>
+            <!-- End of the GIFs. -->
+          </div>
+          <!-- End of the chapter content. -->
+        </details>
+        <!-- End of Chapter IV. -->
+
+        <!-- ----- Chapter V ----- -->
+        <details open>
+          <!-- Chapter V. -->
+          <summary>
+            <span class="ch-num">V.</span>
+            <span class="ch-title">Reflection</span>
+            <span class="leader" aria-hidden="true"></span>
+            <span class="ch-page">p. 5</span>
+            <span class="ch-sign" aria-hidden="true"></span>
+          </summary>
+          <!-- The chapter line. -->
+
+          <div class="chapter-body">
+            <p class="intro">This was my first time working with a startup on an ongoing basis. As a freelancer I usually run the research myself; here I took input from the research team. The team's capabilities kept changing, so I recreated the app many times to match new goals. Throughout this process I learned more about designing accessible screens, especially following the Web Content Accessibility Guidelines (WCAG).</p>
+            <!-- The reflection. -->
+          </div>
+          <!-- End of the chapter content. -->
+        </details>
+        <!-- End of Chapter V. -->
+      </div>
+      <!-- End of all chapters. -->
+
+      <nav class="next-project" aria-label="Next project">
+        <!-- The link to your next project. -->
+        <span class="label">Next project</span>
+        <!-- The label. -->
+        <a class="serif" href="redesign.html">When is Redesign Necessary?</a>
+        <!-- The link to your next project page. -->
+      </nav>
+      <!-- End of the next-project link. -->
+    </main>
+    <!-- End of the case study. -->
+  </div>
+  <!-- End of the two-column wrapper. -->
+</body>
+<!-- End of everything visible. -->
+</html>
+<!-- End of the page. -->

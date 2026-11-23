@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<!-- A project page, built from its "(edit me)" design on the canvas.
+     On a computer (1024px wide and up) it opens INSIDE the homepage (index.html), on the right side of the screen.
+     If someone opens this file directly on a computer, it sends them to the homepage with this project open.
+     On tablets and phones it shows as its own page, with your name at the top linking home. -->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <!-- Lets symbols like – and “ ” show correctly. -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Makes the page fit phone and tablet screens. The layout adapts (see "RESPONSIVE" in the styles below). -->
+  <title>ProActive · Varsha Gartaula</title>
+  <!-- The text on the browser tab. -->
+  <script>
+    // Runs before the page appears.
+    if (/[?&]embed/.test(location.search)) {
+      // "?embed" in the address means the homepage is showing this page in its right-hand panel...
+      document.documentElement.classList.add("embed");
+      // ...so we hide the name and menu (the homepage already shows them).
+    } else if (window.innerWidth >= 1024 && window.top === window) {
+      // Opened directly on a computer: go to the homepage instead, with this project open.
+      location.replace("index.html#proactive-vest");
+    }
+  </script>
+  <style>
+    /* Fonts: EB Garamond, loaded from your fonts/ folder. */
+
+@font-face{font-family:'EB Garamond';src:url(fonts/EBGaramond-Regular.woff2) format('woff2');font-weight:400;font-style:normal;font-display:block}
+@font-face{font-family:'EB Garamond';src:url(fonts/EBGaramond-Medium.woff2) format('woff2');font-weight:500 800;font-style:normal;font-display:block}
+
+a{color:#f4f2e6;text-decoration:none}a:hover{color:#a5b84e}
+.body{font-family:Helvetica,"Helvetica Neue",Arial,sans-serif;color:#f4f2e6;font-size:16px;line-height:24px}
+.serif{font-family:"EB Garamond",Georgia,serif;color:#f4f2e6}
+.ph{background-color:#2d2d2d;background-image:linear-gradient(to right,rgba(255,255,255,.08) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,.08) 1px,transparent 1px);background-size:25% 33.33%}
+
+    body { margin: 0; background: #394200; }
+    /* No white gap around the page; olive behind everything. */
+    .chapter-head { cursor: pointer; }
+    /* Chapter titles show a hand cursor, because clicking them opens or closes the chapter. */
+    .chapter-head:hover .toggle, .chapter-head:focus-visible .toggle { color: #a5b84e; }
+    /* The − / + turns green on hover. */
+    .chapter-head:focus-visible { outline: 2px solid #a5b84e; outline-offset: 2px; }
+    /* A green outline for keyboard users. */
+    .chapter-body[hidden] { display: none; }
+    /* A closed chapter is hidden. */
+
+    /* Inside the homepage panel: hide the left column and let the case study start at the left edge. */
+    .embed .chrome { display: none; }
+    .embed .sheet { width: auto !important; min-height: 0 !important; }
+    .embed .case { margin-left: 18px !important; padding-top: var(--top, 22px) !important; }
+    /* 18px from the line, like the homepage's 18px margin. The top padding is set by the homepage so the first line sits level with your name. */
+
+    /* ---------- RESPONSIVE (added so the page works on any screen) ----------
+       The case study is designed 890px wide.
+       - Wide enough (640px and up): the design is shown as drawn, scaled down slightly if needed to fit.
+       - Phones (under 640px): the page gets the class "narrow" and everything stacks into one column. */
+
+    /* Opened on its own (tablets and phones): your name sits at the top as a link home; the side menu and lines are hidden. */
+    html:not(.embed) .chrome { display: none; }
+    html:not(.embed) a.chrome { display: block !important; position: static !important; padding: 17px 18px 0; font-size: 32px; line-height: 40px; }
+    html:not(.embed) .sheet, .narrow .sheet { width: auto !important; min-height: 0 !important; }
+    html:not(.embed) .case { margin: 0 auto !important; padding-left: 18px; padding-right: 18px; box-sizing: content-box; }
+
+    /* Phones: one column. "fixed-fig" marks the small screen mockups, which keep their own layout and are scaled to fit instead. */
+    .narrow .case { margin: 0 !important; width: auto !important; padding: 24px 18px 64px !important; box-sizing: border-box; }
+    .narrow .case [style*="grid-template-columns"]:not(.fixed-fig *) { grid-template-columns: minmax(0, 1fr) !important; row-gap: 16px; }
+    .narrow .case [style*="grid-template-columns:repeat(4"]:not(.fixed-fig *) { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; column-gap: 16px !important; }
+    .narrow .case [style*="grid-column"]:not(.fixed-fig *) { grid-column: auto !important; }
+    .narrow .case [style*="display:flex"]:not(.fixed-fig *):not(.chapter-head) { flex-wrap: wrap; }
+    .narrow .case [style*="width:"]:not(.fixed-fig):not(.fixed-fig *) { max-width: 100%; }
+    .narrow .case img:not(.fixed-fig *) { max-width: 100%; height: auto !important; }
+    .narrow .case [style*="position:absolute"]:not(.fixed-fig *):not([style*="clip:rect"]) { position: static !important; }
+    .narrow .case [style*="height:"]:not(img):not(.fixed-fig):not(.fixed-fig *) { height: auto !important; }
+    .narrow .case [style*="font-size:64px"]:not(.fixed-fig *) { font-size: 40px !important; line-height: 46px !important; }
+    .narrow .case [style*="font-size:40px"]:not(.fixed-fig *) { font-size: 28px !important; line-height: 34px !important; }
+    .narrow .case [style*="font-size:32px"]:not(.fixed-fig *) { font-size: 24px !important; line-height: 30px !important; }
+    .narrow .chapter-body { padding: 8px 0 48px 0 !important; }
+    .narrow .chapter-head > span:first-child { width: 32px !important; font-size: 18px !important; }
+    .narrow .chapter-head > span[aria-hidden="true"]:not(.toggle) { display: none; }
+    .narrow .chapter-head > span:nth-child(4) { display: none; }
+    /* On phones the dotted leader and the page number are hidden, so the chapter title has room. */
+    .narrow .chapter-head > span:nth-child(2) { flex: 1 1 auto !important; min-width: 0; }
+    .narrow .fixed-fig { flex: none; }
+    /* Keeps the award badge pinned in the bottom-left corner of the vest photo on phones (the rule above would otherwise drop it into the page flow). */
+    .narrow .case img.award-badge.award-badge[style][class][src] { position: absolute !important; width: 56px !important; height: 56px !important; bottom: auto !important; top: calc(min(430px, 100vw - 36px) * 0.805 - 74px) !important; } /* Bottom-left corner of the vest photo: the photo's height (its width x 0.805) minus the badge and an 18px gap. */
+  </style>
+</head>
+<body>
+<!-- Everything below is the design. The name and menu have class "chrome"; the case study has class "case".
+     Each chapter has a title row (class "chapter-head") followed by its content (class "chapter-body"). -->
+<div class="sheet" style="position:relative;width:1440px;min-height:7700px;background:#394200;color:#f4f2e6;font-family:'EB Garamond',Georgia,serif;font-size:40px;line-height:48px">
+<a class="chrome" href="index.html" style="position:absolute;left:18px;top:17px;color:#e6e4d6">Varsha Gartaula</a>
+<div class="chrome" style="position:absolute;left:18px;top:474px">
+<a href="proactive-vest.html" aria-current="page" style="display:block;color:#a5b84e"><span style="font-size:16px;vertical-align:top;position:relative;top:6px;margin-right:4px">(1)</span>ProActive Vest</a>
+<a href="redesign.html" style="display:block"><span style="font-size:16px;vertical-align:top;position:relative;top:6px;margin-right:4px">(2)</span>When is Redesign Necessary?</a>
+<a href="portals.html" style="display:block"><span style="font-size:16px;vertical-align:top;position:relative;top:6px;margin-right:4px">(3)</span>Mapping Courses to Careers</a>
+<div style="height:47px"></div>
+<a href="play.html" style="display:block">Play</a>
+<a href="Varsha-Gartaula-CV.pdf" target="_blank" rel="noopener" style="display:block">CV/Resume</a>
+</div>
+<div class="chrome" style="position:absolute;left:18px;top:770px;width:484px;border-top:1px solid rgba(244,242,230,.35)"></div>
+<div class="chrome" style="position:absolute;left:518px;top:16px;bottom:0;border-left:1px solid rgba(244,242,230,.35)"></div>
+<div class="case" style="margin-left:534px;width:890px;padding:22px 0 120px;font-family:Helvetica,'Helvetica Neue',Arial,sans-serif;font-size:12px;line-height:16px;color:#cfcdbd">
+
+<div style="display:grid;grid-template-columns:repeat(6,minmax(0,1fr));column-gap:16px">
+<div style="grid-column:1/4"><span style="display: inline-block; padding: 5px 11px; border-radius: 999px; background: rgba(244, 242, 230, 0.92); color: rgb(57, 66, 0)">Healthcare design</span></div><div style="grid-column:4/7;text-align:right">2025–present</div>
+<div class="serif" style="grid-column:1/7;margin-top:16px;font-size:64px;line-height:72px">ProActive</div>
+<div class="serif" style="grid-column:1/7;margin-top:10px;font-size:24px;line-height:32px;color:#cfcdbd">The companion app for a self-inflating vest that eases sensory overload</div>
+</div>
+<div style="position:relative;height:520px;overflow:hidden;background:#e4e1cc;margin-top:32px">
+<img src="images/proactive/vest-worn.jpg" alt="A person zipping up the ProActive vest prototype" style="position:absolute;left:0;top:0;width:430px;height:520px;object-fit:cover;object-position:46% 50%">
+<img class="award-badge" src="images/proactive/dyson-award.png" alt="The James Dyson Award, won by the ProActive project" title="The James Dyson Award" style="position:absolute;left:18px;bottom:18px;width:68px;height:68px;display:block;box-shadow:0 6px 16px rgba(0,0,0,.25)">
+<div style="position:absolute;left:470px;top:42px;display:flex;gap:30px">
+<div><div style="display:flex;align-items:center;gap:7px;font-family:Helvetica,'Helvetica Neue',Arial,sans-serif;font-size:12px;line-height:16px;color:#394200"><span style="width:7px;height:7px;border-radius:50%;background:#8a8c72"></span>Vest off</div><div style="margin-top:12px"><div style="width:180px;overflow:hidden;border-radius:20px;background:#ffffff;box-shadow:0 0 0 1px rgba(20,24,0,.10), 0 18px 40px rgba(20,24,0,.22);"><img src="images/proactive/dashboard-vest-off.png" alt="Dashboard with the vest inactive and an Activate Vest button" style="display:block;width:100%"></div></div></div>
+<div><div style="display:flex;align-items:center;gap:7px;font-family:Helvetica,'Helvetica Neue',Arial,sans-serif;font-size:12px;line-height:16px;color:#394200"><span style="width:7px;height:7px;border-radius:50%;background:#107659"></span>Vest on</div><div style="margin-top:12px"><div style="width:180px;overflow:hidden;border-radius:20px;background:#ffffff;box-shadow:0 0 0 1px rgba(20,24,0,.10), 0 18px 40px rgba(20,24,0,.22);"><img src="images/proactive/dashboard-vest-on.png" alt="Dashboard with the vest active and a Deactivate Vest button" style="display:block;width:100%"></div></div></div>
+</div>
+</div>
+<div style="margin-top:8px">Plate I · The ProActive vest, and the app's dashboard in both states. I kept one control in the same place in both states.</div>
+
+<div style="display:grid;grid-template-columns:repeat(6,minmax(0,1fr));column-gap:16px;margin-top:32px">
+<div style="grid-column:1/7;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));column-gap:16px">
+<div><div>Role</div><div class="body" style="margin-top:8px">UX/UI designer</div></div>
+<div><div>Timeline</div><div class="body" style="margin-top:8px">2025–present</div></div>
+<div><div>Team</div><a class="body" style="margin-top:8px;display:block" href="https://www.vayence.ca/index.html" target="_blank" rel="noopener">Vayence Inc, Toronto</a><div class="body">Remote</div></div>
+<div><div>Tools</div><div class="body" style="margin-top:8px">Figma, Claude</div></div>
+</div>
+<div style="grid-column:1/7;margin-top:32px;border-top:1px solid rgba(244,242,230,.35)"></div>
+<div style="grid-column:1;margin-top:16px;padding-top:5px">Overview</div>
+<div class="body" style="grid-column:2/6;margin-top:16px">ProActive is a reusable, self-inflating vest for people with autism and sensory sensitivities. I designed the app that pairs with it. I turned the research team's findings into features, then designed the flows, the screens and the colour system, so wearers and caregivers can see what the vest senses, control it, and learn from each episode all while following Web Content Accessibility Guidelines (WCAG).</div>
+
+<div style="grid-column:1/7;margin-top:48px;border-top:1px solid rgba(244,242,230,.35)"></div>
+<div style="grid-column:1;margin-top:16px;padding-top:5px">How the vest works</div>
+<div style="grid-column:2/4;margin-top:16px"><img src="images/proactive/vest-form.jpg" alt="The ProActive vest prototype on a dress form" style="display:block;width:100%;aspect-ratio:4/5;object-fit:cover"><div style="margin-top:8px">The ProActive prototype</div></div>
+<div class="body" style="grid-column:4/7;margin-top:16px">
+<div class="serif" style="font-size:32px;line-height:40px;">Sensory overload happens in everyday places.</div>
+<div style="margin-top:12px">Sound, light, crowds and touch can all trigger it.</div>
+<div style="margin-top:20px"><div style="display:flex;gap:16px;margin-top:10px"><span style="width:28px;flex:none;color:#cfcdbd">01</span><span>Sensors in the vest detect rising stress.</span></div><div style="display:flex;gap:16px;margin-top:10px"><span style="width:28px;flex:none;color:#cfcdbd">02</span><span>The vest inflates to apply firm, even pressure.</span></div><div style="display:flex;gap:16px;margin-top:10px"><span style="width:28px;flex:none;color:#cfcdbd">03</span><span>It deflates once the wearer is calm.</span></div></div>
+<div style="margin-top:20px;font-size:12px;line-height:16px;color:#cfcdbd">2026 prototype, in development.</div>
+</div>
+
+<div style="grid-column:1/7;margin-top:48px;border-top:1px solid rgba(244,242,230,.35)"></div>
+<div style="grid-column:1/7;margin-top:16px">Recognition</div>
+<div style="grid-column:1/4;margin-top:16px"><div class="serif" style="font-size:56px;line-height:64px">CA$30,000</div><div style="margin-top:8px">Total funding won through awards</div></div>
+<div style="grid-column:4/7;margin-top:16px"><div class="serif" style="font-size:56px;line-height:64px">£5,000</div><div style="margin-top:8px">From the James Dyson Award</div></div>
+<div style="grid-column:1/7;margin-top:32px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));column-gap:16px">
+<div style="padding-top:12px;border-top:1px solid rgba(244,242,230,.35)"><div class="serif" style="font-size:24px;line-height:32px">James Dyson Award</div><div style="margin-top:4px">Canadian national winner, 2026</div></div>
+<div style="padding-top:12px;border-top:1px solid rgba(244,242,230,.35)"><div class="serif" style="font-size:24px;line-height:32px">ACIDO</div><div style="margin-top:4px">People's Choice Award, 2025</div></div>
+<div style="padding-top:12px;border-top:1px solid rgba(244,242,230,.35)"><div class="serif" style="font-size:24px;line-height:32px">Cboe Canada</div><div style="margin-top:4px">Award for Disruptive Design, 2025</div></div>
+<div style="padding-top:12px;border-top:1px solid rgba(244,242,230,.35)"><div class="serif" style="font-size:24px;line-height:32px">RBC CEAD Seed Fund</div><div style="margin-top:4px">Runner-up, 2026</div></div>
+</div>
+<div style="grid-column:1/7;margin-top:48px;border-top:1px solid rgba(244,242,230,.35)"></div>
+<div style="grid-column:1;margin-top:16px;padding-top:4px">Outcome</div>
+<div class="body" style="grid-column:2/6;margin-top:16px">The vest doesn't work without the app: it's how wearers see what the vest senses and turn it on and off. The app is pitched as part of the product, and my screens are shown alongside the vest at startup showcases.</div>
+</div>
+
+<div style="margin-top:120px;display:flex;align-items:baseline;justify-content:space-between">
+<div class="serif" style="font-size:64px;line-height:72px;">Contents</div>
+<div>Select a chapter to open or close it</div>
+</div>
+
+<div style="margin-top:32px">
+<div class="chapter-head" tabindex="0" role="button" aria-expanded="true" style="display:flex;align-items:baseline;gap:16px;padding:14px 0;border-top:1px solid rgba(244,242,230,.35)"><span class="serif" style="width: 56px; flex: 0 0 auto; font-size: 24px; line-height: 32px; color: rgb(207, 205, 189)">I.</span><span class="serif" style="flex: 0 0 auto; font-size: 40px; line-height: 48px; color: rgb(165, 184, 78)">Problem and Goals</span><span aria-hidden="true" style="flex: 1 1 0%; min-width: 40px; border-bottom: 1px dotted rgba(244, 242, 230, 0.5); transform: translateY(-8px)"></span><span class="serif" style="flex: 0 0 auto; font-size: 24px; line-height: 32px; color: rgb(207, 205, 189)">p. 1</span><span class="toggle" aria-hidden="true" style="flex: 0 0 auto; width: 32px; text-align: right; font-size: 24px; color: rgb(244, 242, 230)">−</span></div>
+<div class="chapter-body" style="padding:16px 0 72px 72px">
+<div class="body" style="max-width:640px">I turned the startup's research into the app's brief. Because the app and the vest are being built at the same time, I keep reiterating the design as the hardware changes and the research team learns more. With this user base, I made accessibility my first priority throughout.</div>
+<div style="margin-top:28px">Goals</div>
+<div class="body" style="max-width:640px"><div style="display:flex;gap:16px;margin-top:10px"><span style="width:28px;flex:none;color:#cfcdbd">01</span><span>A visible, accessible emergency help screen</span></div><div style="display:flex;gap:16px;margin-top:10px"><span style="width:28px;flex:none;color:#cfcdbd">02</span><span>A calming colour scheme that still passes contrast checks</span></div><div style="display:flex;gap:16px;margin-top:10px"><span style="width:28px;flex:none;color:#cfcdbd">03</span><span>Many functions, with navigation that stays clear</span></div></div>
+<div style="margin-top:32px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));column-gap:28px;align-items:start">
+<div><div style="width:254px;overflow:hidden;border-radius:28px;background:#ffffff;box-shadow:0 0 0 1px rgba(20,24,0,.10), 0 18px 40px rgba(20,24,0,.22);"><img src="images/proactive/severe.png" alt="Severe episode alert with Deactivate Vest and Guided Meditation buttons" style="display:block;width:100%"></div><div style="margin-top:10px">Fig. 1 · Severe episode: the two actions that matter come first.</div></div>
+<div><div style="width:254px;overflow:hidden;border-radius:28px;background:#ffffff;box-shadow:0 0 0 1px rgba(20,24,0,.10), 0 18px 40px rgba(20,24,0,.22);"><img src="images/proactive/resolved.png" alt="Resolved episode summary with trigger analysis" style="display:block;width:100%"></div><div style="margin-top:10px">Fig. 2 · Resolved: a plain summary of what happened.</div></div>
+<div class="body"><div class="serif" style="font-size:32px;line-height:40px;">Two buttons, nothing else</div><div style="margin-top:12px">I cut this screen down to two actions. In the moment, the wearer only needs to stop the vest or start calming down; everything else waits until the episode is over.</div></div>
+</div>
+</div>
+
+<div class="chapter-head" tabindex="0" role="button" aria-expanded="true" style="display:flex;align-items:baseline;gap:16px;padding:14px 0;border-top:1px solid rgba(244,242,230,.35)">
+<span class="serif" style="width:56px;flex:none;font-size:24px;line-height:32px;color:#cfcdbd">II.</span>
+<span class="serif" style="flex:none;font-size:40px;line-height:48px;color:#a5b84e">Research</span>
+<span aria-hidden="true" style="flex:1;min-width:40px;border-bottom:1px dotted rgba(244,242,230,.5);transform:translateY(-8px)"></span>
+<span class="serif" style="flex:none;font-size:24px;line-height:32px;color:#cfcdbd">p. 2</span>
+<span class="toggle" aria-hidden="true" style="flex:none;width:32px;text-align:right;font-size:24px;color:#f4f2e6">−</span>
+</div>
+<div class="chapter-body" style="padding:16px 0 72px 72px">
+<div class="body" style="max-width: 640px; font-size: 16px">The research team ran user interviews and A/B tests. My role was to turn what they found into design decisions.</div>
+<div style="margin-top:28px">What they found → what I designed</div>
+<div class="body"><div style="display: flex; gap: 16px; margin-top: 10px; font-size: 16px"><span style="width: 28px; flex: 0 0 auto; color: rgb(207, 205, 189)">01</span><span>Wearers and caregivers couldn't tell what caused their stress → Trigger analysis that names the likely cause of each episode</span></div><div style="display: flex; gap: 16px; margin-top: 10px; font-size: 16px"><span style="width: 28px; flex: 0 0 auto; color: rgb(207, 205, 189)">02</span><span>Wearers needed guidance when stress peaked → Guided meditation offered at the moment stress rises</span></div><div style="display: flex; gap: 16px; margin-top: 10px; font-size: 16px"><span style="width: 28px; flex: 0 0 auto; color: rgb(207, 205, 189)">03</span><span>Wearers wanted privacy from caregivers, as some episodes were personal → Caregiver notes kept alongside a private journal</span></div></div>
+<div style="margin-top:32px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));column-gap:28px;align-items:start">
+<div><div style="width:254px;overflow:hidden;border-radius:28px;background:#ffffff;box-shadow:0 0 0 1px rgba(20,24,0,.10), 0 18px 40px rgba(20,24,0,.22);"><img src="images/proactive/episode.png" alt="Episode detail with duration, likely triggers and suggestions" style="display:block;width:100%"></div><div style="margin-top:10px">Fig. 3 · Episode detail: what happened, likely triggers and suggestions.</div></div>
+<div><div style="width:254px;overflow:hidden;border-radius:28px;background:#ffffff;box-shadow:0 0 0 1px rgba(20,24,0,.10), 0 18px 40px rgba(20,24,0,.22);"><img src="images/proactive/triggers.png" alt="Most common triggers and tips that may help" style="display:block;width:100%"></div><div style="margin-top:10px">Fig. 4 · Triggers: patterns across weeks, with tips that may help.</div></div>
+<div class="body"><div class="serif" style="font-size:32px;line-height:40px;">From data to next steps</div><div style="margin-top:12px">I made every insight end in something the wearer can do, such as adjusting the vest's sensitivity, with a quick “Helpful?” check.</div></div>
+</div>
+</div>
+
+<div class="chapter-head" tabindex="0" role="button" aria-expanded="true" style="display:flex;align-items:baseline;gap:16px;padding:14px 0;border-top:1px solid rgba(244,242,230,.35)"><span class="serif" style="width: 56px; flex: 0 0 auto; font-size: 24px; line-height: 32px; color: rgb(207, 205, 189)">III.</span><span class="serif" style="flex: 0 0 auto; font-size: 40px; line-height: 48px; color: rgb(165, 184, 78)">The App</span><span aria-hidden="true" style="flex: 1 1 0%; min-width: 40px; border-bottom: 1px dotted rgba(244, 242, 230, 0.5); transform: translateY(-8px)"></span><span class="serif" style="flex: 0 0 auto; font-size: 24px; line-height: 32px; color: rgb(207, 205, 189)">p. 3</span><span class="toggle" aria-hidden="true" style="flex: 0 0 auto; width: 32px; text-align: right; font-size: 24px; color: rgb(244, 242, 230)">−</span></div>
+<div class="chapter-body" style="padding:16px 0 72px 72px">
+<div class="body" style="max-width:640px">I designed the app around three jobs: show what the vest is sensing, give the wearer control, and help wearers and caregivers learn from past episodes.</div>
+<div style="margin-top:32px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));column-gap:28px">
+<div><div style="width:254px;overflow:hidden;border-radius:28px;background:#ffffff;box-shadow:0 0 0 1px rgba(20,24,0,.10), 0 18px 40px rgba(20,24,0,.22);"><img src="images/proactive/dashboard-vest-on.png" alt="Dashboard showing current status and the vest control" style="display:block;width:100%"></div><div style="margin-top:10px">Fig. 5 · Dashboard: live status first, then one large vest control.</div></div>
+<div><div style="width:254px;overflow:hidden;border-radius:28px;background:#ffffff;box-shadow:0 0 0 1px rgba(20,24,0,.10), 0 18px 40px rgba(20,24,0,.22);"><img src="images/proactive/meditation.png" alt="Guided meditation, step one of five" style="display:block;width:100%"></div><div style="margin-top:10px">Fig. 6 · Guided meditation: one instruction at a time.</div></div>
+<div><div style="width:254px;overflow:hidden;border-radius:28px;background:#ffffff;box-shadow:0 0 0 1px rgba(20,24,0,.10), 0 18px 40px rgba(20,24,0,.22);"><img src="images/proactive/insights.png" alt="Data and insights with recent episodes" style="display:block;width:100%"></div><div style="margin-top:10px">Fig. 7 · Data and insights: recent episodes, rated by severity.</div></div>
+</div>
+<div class="serif" style="margin-top:48px;padding:18px 0;border-top:1px solid rgba(244,242,230,.35);border-bottom:1px solid rgba(244,242,230,.35);font-size:24px;line-height:32px;">“A colour scheme where one is able to alert the user without increasing stress”</div>
+<div style="margin-top:24px;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));column-gap:12px">
+<div><div style="height:44px;background:#02102b;border:1px solid rgba(244,242,230,.25)"></div><div style="margin-top:6px">Status navy<br>#02102b</div></div><div><div style="height:44px;background:#107659;border:1px solid rgba(244,242,230,.25)"></div><div style="margin-top:6px">Activate green<br>#107659</div></div><div><div style="height:44px;background:#950000;border:1px solid rgba(244,242,230,.25)"></div><div style="margin-top:6px">Deactivate red<br>#950000</div></div><div><div style="height:44px;background:#004446;border:1px solid rgba(244,242,230,.25)"></div><div style="margin-top:6px">Calm teal<br>#004446</div></div><div><div style="height:44px;background:#c2e4e6;border:1px solid rgba(244,242,230,.25)"></div><div style="margin-top:6px">Tile blue<br>#c2e4e6</div></div>
+</div>
+<div style="margin-top:10px">Fig. 8 · The app's palette</div>
+<div style="margin-top:48px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));column-gap:28px;align-items:start">
+<div><div style="width:254px;overflow:hidden;border-radius:28px;background:#ffffff;box-shadow:0 0 0 1px rgba(20,24,0,.10), 0 18px 40px rgba(20,24,0,.22);"><img src="images/proactive/journal.png" alt="Notes and journal with a private journal entry" style="display:block;width:100%"></div><div style="margin-top:10px">Fig. 9 · Journal: private by default.</div></div>
+<div><div style="width:254px;overflow:hidden;border-radius:28px;background:#ffffff;box-shadow:0 0 0 1px rgba(20,24,0,.10), 0 18px 40px rgba(20,24,0,.22);"><img src="images/proactive/export.png" alt="Export and share options for a report" style="display:block;width:100%"></div><div style="margin-top:10px">Fig. 10 · Export: the wearer chooses what a report includes.</div></div>
+<div class="body"><div class="serif" style="font-size:32px;line-height:40px;">Private by default</div><div style="margin-top:12px">I made journal entries private by default. They're marked “Only you can see this”, and stay out of shared reports unless the wearer turns them on.</div></div>
+</div>
+
+</div>
+
+<div class="chapter-head" tabindex="0" role="button" aria-expanded="true" style="display:flex;align-items:baseline;gap:16px;padding:14px 0;border-top:1px solid rgba(244,242,230,.35)"><span class="serif" style="width: 56px; flex: 0 0 auto; font-size: 24px; line-height: 32px; color: rgb(207, 205, 189)">IV.</span><span class="serif" style="flex: 0 0 auto; font-size: 40px; line-height: 48px; color: rgb(165, 184, 78)">Iteration Example</span><span aria-hidden="true" style="flex: 1 1 0%; min-width: 40px; border-bottom: 1px dotted rgba(244, 242, 230, 0.5); transform: translateY(-8px)"></span><span class="serif" style="flex: 0 0 auto; font-size: 24px; line-height: 32px; color: rgb(207, 205, 189)">p. 4</span><span class="toggle" aria-hidden="true" style="flex: 0 0 auto; width: 32px; text-align: right; font-size: 24px; color: rgb(244, 242, 230)">−</span></div>
+<div class="chapter-body" style="padding:16px 0 72px 72px">
+<div class="body" style="max-width:640px">In my first version of the data log, people had to open each section in turn to understand one episode. I realised the order of information was the problem, and rebuilt it as a shorter, cleaner flow.</div>
+<div style="margin-top:40px;display:grid;grid-template-columns:repeat(2,minmax(0,300px));column-gap:64px;align-items:start">
+<div><div style="border-radius:28px;background:#ffffff;box-shadow:0 0 0 1px rgba(20,24,0,.10), 0 18px 40px rgba(20,24,0,.22);overflow:hidden"><img src="images/proactive/proactive-before-10-screens.gif" alt="The first data log flow, playing through ten screens" style="display:block;width:100%"></div><div style="margin-top:16px;font-size:12px;line-height:16px;color:#cfcdbd">Before</div><div class="serif" style="margin-top:8px;font-size:32px;line-height:40px">10 screens</div><div class="body" style="margin-top:8px">A date picker, three dropdowns and tooltips.</div></div>
+<div><div style="border-radius:28px;background:#ffffff;box-shadow:0 0 0 1px rgba(20,24,0,.10), 0 18px 40px rgba(20,24,0,.22);overflow:hidden"><img src="images/proactive/proactive-after-3-screens.gif" alt="The new data log flow, playing through three screens" style="display:block;width:100%"></div><div style="margin-top:16px;font-size:12px;line-height:16px;color:#cfcdbd">After</div><div class="serif" style="margin-top:8px;font-size:32px;line-height:40px">3 screens</div><div class="body" style="margin-top:8px">Recent episodes, the week, then one episode on one page.</div></div>
+</div>
+</div>
+
+<div class="chapter-head" tabindex="0" role="button" aria-expanded="true" style="display:flex;align-items:baseline;gap:16px;padding:14px 0;border-top:1px solid rgba(244,242,230,.35)">
+<span class="serif" style="width:56px;flex:none;font-size:24px;line-height:32px;color:#cfcdbd">V.</span>
+<span class="serif" style="flex:none;font-size:40px;line-height:48px;color:#a5b84e">Reflection</span>
+<span aria-hidden="true" style="flex:1;min-width:40px;border-bottom:1px dotted rgba(244,242,230,.5);transform:translateY(-8px)"></span>
+<span class="serif" style="flex:none;font-size:24px;line-height:32px;color:#cfcdbd">p. 5</span>
+<span class="toggle" aria-hidden="true" style="flex:none;width:32px;text-align:right;font-size:24px;color:#f4f2e6">−</span>
+</div>
+<div class="chapter-body" style="padding:16px 0 72px 72px">
+<div class="body" style="max-width:640px">This was my first time working with a startup on an ongoing basis. As a freelancer I usually run the research myself; here I took input from the research team. The team's capabilities kept changing, so I recreated the app many times to match new goals. Throughout this process I learned more about designing accessible screens, especially following the Web Content Accessibility Guidelines (WCAG).</div>
+
+
+</div>
+<div style="border-top:1px solid rgba(244,242,230,.35)"></div>
+</div>
+
+<div style="margin-top:96px;display:flex;gap:16px;align-items:baseline">
+<div style="width:120px">Next project</div><a href="redesign.html" class="serif" style="font-size:40px;line-height:48px">When is Redesign Necessary?</a>
+</div>
+
+</div>
+</div>
+<script>
+  // Makes each chapter title open or close the chapter below it: − means open, + means closed.
+  document.querySelectorAll('.chapter-head').forEach(function (head) {
+    var content = head.nextElementSibling;
+    // The chapter's content is the block right after its title.
+    var sign = head.querySelector('.toggle');
+    // The − / + on the right.
+    function toggle() {
+      var open = content.hidden;
+      content.hidden = !open;
+      // Show or hide the content.
+      sign.textContent = open ? '−' : '+';
+      head.setAttribute('aria-expanded', open);
+      // Tells screen readers whether it's open.
+    }
+    head.addEventListener('click', toggle);
+    head.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); } });
+    // Enter or Space toggles it for keyboard users.
+  });
+
+  function fit() {
+    // Runs when the page loads and whenever the window changes size.
+    var root = document.documentElement;
+    var w = window.innerWidth;
+    var caseEl = document.querySelector('.case');
+    var narrow = w < 640;
+    root.classList.toggle('narrow', narrow);
+    // Phones get the one-column layout.
+    var side = root.classList.contains('embed') ? 18 : 36;
+    caseEl.style.zoom = narrow ? '' : Math.min(1, (w - side - 18) / 890);
+    // Wider screens see the design as drawn, scaled down a little if the window is narrower than it.
+    document.querySelectorAll('.fixed-fig').forEach(function (fig) {
+      // The small screen mockups keep their layout and shrink to fit the column on phones.
+      var figW = parseFloat(fig.style.width) || fig.offsetWidth;
+      var par = fig.parentElement, cs = getComputedStyle(par);
+      var avail = Math.min(caseEl.clientWidth - 36, par.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight));
+      // The room available: the column, minus any padding around the mockup.
+      fig.style.zoom = narrow ? Math.min(1, avail / figW) : '';
+    });
+    var top = parseFloat((location.search.match(/[?&]top=([0-9.]+)/) || [])[1]);
+    // Inside the homepage: how far down your name starts, so the first line can sit level with it.
+    var z = parseFloat(caseEl.style.zoom) || 1;
+    if (top && !narrow) root.style.setProperty('--top', Math.max(0, top / z - 4.6) + 'px');
+  }
+  document.querySelectorAll('.case [style*="transform:scale"]').forEach(function (inner) {
+    // Marks each screen mockup's frame as a "fixed-fig" (see the CSS above).
+    inner.parentElement.classList.add('fixed-fig');
+  });
+  fit();
+  window.addEventListener('resize', fit);
+
+  if (document.documentElement.classList.contains('embed')) {
+    // Inside the homepage panel:
+    document.addEventListener('click', function (e) {
+      // When a link to another of your pages is clicked (like "Next project"), ask the homepage to open it.
+      var a = e.target.closest('a');
+      if (!a || a.target === '_blank') return;
+      // Links that open a new tab (Vayence, your CV) work as normal.
+      var href = a.getAttribute('href');
+      if (!href || href.charAt(0) === '#') return;
+      e.preventDefault();
+      window.parent.postMessage({ go: href }, '*');
+    });
+  }
+</script>
+</body>
+</html>

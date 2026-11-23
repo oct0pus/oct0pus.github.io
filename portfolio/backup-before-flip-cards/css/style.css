@@ -1,0 +1,120 @@
+/* ==========================================================
+   STYLE.CSS: homepage
+   1 Variables · 2 Base · 3 Name + arrow · 4 Pictures that pop up
+   5 Menu · 6 Small screens
+   ========================================================== */
+
+/* ---------- 1. VARIABLES (change colours and sizes here) ---------- */
+:root {
+  --bg: #394200;          /* olive background */
+  --text: #ffffff;        /* menu text */
+  --title: #e6e4d6;       /* your name (slightly softer white) */
+  --accent: #a5b84e;      /* light green when you hover a link */
+  --line: #8c9170;        /* thin line under CV/Resume */
+
+  --serif: "EB Garamond", Georgia, serif;
+
+  /* 2.64vw = 38px on a 1440px-wide screen; it scales with the window,
+     but never smaller than 28px or bigger than 44px. */
+  --size: clamp(1.75rem, 2.64vw, 2.75rem);
+}
+
+/* ---------- 2. BASE ---------- */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body { height: 100%; }
+
+body {
+  position: relative;               /* lets the arrow and pictures be placed freely */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;   /* name at the top, menu at the bottom */
+  padding: 17px 18px 42px;          /* top, sides, bottom spacing */
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--serif);
+  font-size: var(--size);
+  line-height: 1.237;
+}
+
+a { color: inherit; text-decoration: none; }
+ol, ul { list-style: none; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+/* ---------- 3. NAME + ARROW ---------- */
+/* The name is a <button>, so we strip the button look to make it plain text */
+.site-title {
+  align-self: flex-start;
+  background: none;
+  border: 0;
+  font: inherit;                    /* same font and size as the page */
+  color: var(--title);
+  text-align: left;
+  cursor: pointer;
+}
+
+/* Positions use vw (1vw = 1% of the window width), so the whole
+   collage scales together. Numbers were measured at 1440px wide. */
+.arrow {
+  position: absolute;
+  left: 0.69vw;
+  top: 4.72vw;
+  width: 9.44vw;
+  pointer-events: none;             /* clicks pass through the image */
+}
+
+/* ---------- 4. PICTURES THAT POP UP ---------- */
+/* Hidden by default. JS adds .is-visible, which fades and scales them in. */
+.pop {
+  position: absolute;
+  height: auto;
+  opacity: 0;
+  visibility: hidden;
+  transform: scale(0.94);
+  transition: opacity 0.3s ease, transform 0.3s ease, visibility 0s linear 0.3s;
+  pointer-events: none;
+}
+.pop.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition-delay: 0s;
+}
+
+/* One rule per picture: left / top / width (all in vw) */
+.tagline  { left: 13.19vw; top: 16.67vw; width: 28.40vw; }
+.portrait { left: 2.85vw;  top: 16.67vw; width: 8.06vw; }
+.book     { left: 12.22vw; top: 7.22vw;  width: 7.64vw; }
+.climbing { left: 22.08vw; top: 4.10vw;  width: 8.33vw; }
+.coffee   { left: 32.64vw; top: 6.32vw;  width: 10.49vw; }
+
+/* Respect people who turn off animations in their system settings */
+@media (prefers-reduced-motion: reduce) {
+  .pop { transition: none; transform: none; }
+}
+
+/* ---------- 5. MENU ---------- */
+.projects { margin-bottom: 1.237em; }   /* one empty line before Play */
+
+.menu a:hover { color: var(--accent); } /* links turn green on hover */
+
+/* Small raised numbers: (1) (2) (3) */
+sup {
+  font-size: 0.4em;
+  vertical-align: top;
+  position: relative;
+  top: 0.45em;
+  margin-right: 0.15em;
+}
+
+/* The thin line: 41.5% of the screen width, sits under CV/Resume */
+.pages {
+  width: 41.5vw;
+  padding-bottom: 15px;
+  border-bottom: 1px solid var(--line);
+}
+
+/* ---------- 6. SMALL SCREENS ---------- */
+@media (max-width: 700px) {
+  .pages { width: 100%; }
+}

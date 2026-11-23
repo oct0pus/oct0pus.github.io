@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Varsha Gartaula</title>
+
+  <!-- Font: EB Garamond from Google Fonts (all text on this page) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Your name. It is a button: each click reveals the next picture below. -->
+  <button class="site-title" id="name" type="button">Varsha Gartaula</button>
+
+  <!-- Hand-drawn arrow, always visible, points at your name.
+       It says "click here!" at first. After your first click, main.js swaps it
+       for images/arrow-again.png ("click again!"). -->
+  <img class="arrow" id="arrow" src="images/arrow.png" alt="click here!">
+
+  <!-- THE 5 THINGS THAT APPEAR, in this order (top to bottom = first to last).
+       Each one starts hidden. main.js adds the class "is-visible" on every click.
+       To change the order, move a line up or down. To swap a picture, replace the file in images/. -->
+  <img class="pop tagline"  src="images/tagline.png"  alt="Creative, ambitious, data-driven (hand-lettered)">
+  <img class="pop portrait" src="images/portrait.png" alt="Varsha smiling on a Paris street">
+  <img class="pop book"     src="images/book.png"     alt="Cover of Ways of Seeing by John Berger">
+  <img class="pop climbing" src="images/climbing.png" alt="Someone climbing an indoor bouldering wall">
+  <img class="pop coffee"   src="images/coffee.png"   alt="A latte with swan latte art">
+
+  <!-- Menu, bottom left -->
+  <nav class="menu">
+
+    <!-- Numbered project list. The <sup> is the small raised (1), (2), (3). -->
+    <ol class="projects">
+      <li><a href="proactive-vest.html"><sup>(1)</sup> Proactive Vest</a></li>
+      <li><a href="redesign.html"><sup>(2)</sup> When is Redesign Necessary?</a></li>
+      <li><a href="portals.html"><sup>(3)</sup> University portals/other?</a></li>
+    </ol>
+
+    <!-- Other pages. The thin line under CV/Resume is drawn in CSS. -->
+    <ul class="pages">
+      <li><a href="play.html">Play</a></li>
+      <li><a href="cv.html">CV/Resume</a></li>
+    </ul>
+  </nav>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
