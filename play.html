@@ -23,14 +23,15 @@
   .street{position:absolute;top:3vh;height:min(60vh,88vw);left:50%;aspect-ratio:1392/1414;transform:translateX(-50%);}
   .street .scene{width:100%;height:100%;display:block;filter:url(#boilSoft);}
   .intro .street .scene,.intro #ticket{filter:url(#boilIntro);}
-  .shade{position:absolute;left:25.9%;top:25.2%;width:24.9%;height:51.6%;background:var(--paper);border-radius:50% 50% 0 0 / 9% 9% 0 0;transition:opacity .9s steps(6) .5s;}
-  .open .shade{opacity:0;}
+  .shade{position:absolute;left:25.9%;top:25.2%;width:24.9%;height:51.6%;background:var(--paper);border-radius:50% 50% 0 0 / 9% 9% 0 0;}
   .door{position:absolute;left:25.5%;top:25.11%;width:25.72%;height:51.77%;}
   .leaf{position:absolute;top:0;height:100%;filter:url(#boil);}
   .left{left:0;width:51.68%;transform-origin:0% 100%;}
   .right{left:50.65%;width:49.35%;transform-origin:100% 100%;}
   .strip{position:absolute;left:0;width:100%;overflow:hidden;}
   .strip img{position:absolute;left:0;width:100%;}
+  .leaf>img{display:block;width:100%;height:100%;}
+  body:not(.ready) .hall{visibility:hidden;}
 
   .ticketwrap{position:absolute;left:50%;top:calc(3vh + min(60vh,88vw) + 2.5vh);width:min(54vh,86vw);transform:translateX(-50%);text-align:center;}
   #ticket{width:100%;display:block;overflow:visible;touch-action:none;cursor:crosshair;filter:url(#boilSoft);}
@@ -466,10 +467,11 @@ function slice(leaf, hinge){
   return out;
 }
 const L = street.querySelector('.left'), R = street.querySelector('.right');
+const shade = street.querySelector('.shade');
 const SL = slice(L, 'left'), SR = slice(R, 'right');
 const DOOR = [
   [1.00, 0.00, 1.00, 0, 3],[0.97, 0.05, 1.00, 0, 2],[1.00,-0.03, 1.00, 0, 2],[1.00, 0.00, 1.00, 0, 3],
-  [1.03, 0.07, 0.98, 0, 4],[1.05, 0.10, 0.97, 0, 3],[0.62, 0.30, 1.04, 3, 1],[0.28, 0.26, 1.07, 5, 1],
+  [1.03, 0.07, 0.98, 0, 4],[1.05, 0.10, 0.97, 0, 3],[0.86, 0.18, 1.02, 2, 1],[0.66, 0.28, 1.04, 3, 1],[0.46, 0.30, 1.06, 4, 1],[0.28, 0.26, 1.07, 5, 1],
   [0.08, 0.10, 1.04, 2, 2],[0.04,-0.03, 0.98,-2, 2],[0.16, 0.06, 1.01, 1, 2],[0.10,-0.02, 1.00, 0, 2],
   [0.13, 0.01, 1.00, 0, 2],[0.12, 0.00, 1.00, 0, 6]
 ];
@@ -565,7 +567,8 @@ function openDoor(){
     $('turb').setAttribute('seed', (f % 6) + 1);
     $('disp').setAttribute('scale', p[0] > 0.2 && p[0] < 0.9 ? 2.6 : 1);
     setDoor(p);
-    if (f === 15) street.classList.add('open');
+    shade.style.opacity = Math.max(0, Math.min(1, (p[0] - 0.12) / 0.74)).toFixed(2);
+    if (f === 18) street.classList.add('open');
   }, () => { doorMoving = false; setTimeout(enter, 500); });
 }
 function enter(){
@@ -601,7 +604,7 @@ function reset(){
   wrap.style.transform = 'translateX(-50%)'; wrap.style.opacity = 1; wrap.style.visibility = 'visible';
   $('hint').style.visibility = 'visible';
   street.style.transform = 'translateX(-50%)'; street.style.opacity = 1; street.style.visibility = 'visible';
-  street.classList.remove('open'); setDoor(DOOR[0]);
+  street.classList.remove('open'); shade.style.opacity = 1; setDoor(DOOR[0]);
   museum.classList.remove('on');
   pieces.forEach(d => { d.style.visibility = 'hidden'; d.style.opacity = 0; });
   labels.forEach(l => { l.style.visibility = 'hidden'; l.style.opacity = 0; });
@@ -610,6 +613,7 @@ function reset(){
 }
 $('again').addEventListener('click', reset);
 reset();
+document.body.classList.add('ready');
 </script>
 <!-- BACK LINK (phones and tablets only): a small "← Back" in the top-left corner, so visitors can return to the homepage.
      It only shows when Play is opened as its own page on a screen under 1024px wide; on a computer Play opens inside the homepage, so it's hidden. -->
